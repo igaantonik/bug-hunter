@@ -47,4 +47,4 @@ jobs:
 
     - name: Lint with Ruff
       run: |
-        poetry run ruff
+        poetry run ruff linter
