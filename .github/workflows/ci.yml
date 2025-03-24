@@ -22,24 +22,21 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Poetry
+      - name: Install and Configure Poetry
         uses: abatilo/actions-poetry@v4
+        with:
+          poetry-version: latest
 
-      - name: Setup a local virtual environment
-        run: |
-          poetry config virtualenvs.create true --local
-          poetry config virtualenvs.in-project true --local
-
-      - name: Cache Poetry virtual environment
+      - name: Cache Poetry dependencies
         uses: actions/cache@v4
         with:
-          path: backend/.venv
-          key: ${{ runner.os }}-backend-venv-${{ hashFiles('backend/**/poetry.lock') }}
+          path: .venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
-            ${{ runner.os }}-backend-venv-
+            ${{ runner.os }}-poetry-
 
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-interaction --no-root
 
       - name: Lint with Ruff
         run: poetry run ruff linter
