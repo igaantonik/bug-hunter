@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches:
@@ -14,37 +13,33 @@ jobs:
     defaults:
       run:
         working-directory: backend
-
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
 
-    - name: Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v4
 
-    - name: Configure Poetry and Add to PATH
-      run: |
-        echo "POETRY_HOME=$HOME/.poetry" >> $GITHUB_ENV
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Setup a local virtual environment
+        run: |
+          poetry config virtualenvs.create true --local
+          poetry config virtualenvs.in-project true --local
 
-    - name: Cache Poetry virtual environment
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-poetry-${{ hashFiles('backend/**/poetry.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-poetry-
+      - name: Cache Poetry virtual environment
+        uses: actions/cache@v4
+        with:
+          path: backend/.venv
+          key: ${{ runner.os }}-backend-venv-${{ hashFiles('backend/**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-venv-
 
-    - name: Install dependencies
-      run: |
-        poetry install --no-interaction --no-root
+      - name: Install dependencies
+        run: poetry install
 
-    - name: Lint with Ruff
-      run: |
-        poetry run ruff linter
+      - name: Lint with Ruff
+        run: poetry run ruff linter
