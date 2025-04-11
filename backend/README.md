@@ -4,6 +4,6 @@ Bug Hunter is an interactive web application designed to help users improve thei
 
 # Backend
 
-```py
+```shell
 poetry run uvicorn app.main:app --reload
 ```
