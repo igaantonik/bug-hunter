@@ -23,7 +23,7 @@ async def get_tasks(skip: int = Query(0, qe=0), limit: int = Query(10, ge=1)):
 
 
 # internal code - for adding
-path_to_local_file = "/Users/maciejmakowski/studies/bug-hunter/backend/task1.txt"
+path_to_local_file = "path/to/local/file.txt"
 
 
 async def read_local_file(file_path: str = path_to_local_file) -> str:
