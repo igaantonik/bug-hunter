@@ -16,12 +16,12 @@ async def get_tasks(skip: int = Query(0, qe=0), limit: int = Query(10, ge=1)):
     - **skip**: Number of tasks to skip (default: 0)
     - **limit**: Number of tasks to return (default: 10)
     """
-    tasks = await db.taska.find().skip(skip).limit(limit).to_list(limit)
+    tasks = await db.tasks.find().skip(skip).limit(limit).to_list(limit)
     return TaskCollection(tasks=tasks)
 
 
 # internal code - for adding
-path_to_local_file = "path/to/local/file.txt"
+path_to_local_file = "/Users/maciejmakowski/studies/bug-hunter/backend/task1.txt"
 
 
 async def read_local_file(file_path: str = path_to_local_file) -> str:
@@ -43,7 +43,7 @@ async def create_task(task: TaskModel = Body(...)):
         file = await read_local_file()
         task.file = file
 
-    new_task = await db.taska.insert_one(task.model_dump(by_alias=True, exclude=["id"]))
-    created_task = await db.taska.find_one({"_id": new_task.inserted_id})
+    new_task = await db.tasks.insert_one(task.model_dump(by_alias=True, exclude=["id"]))
+    created_task = await db.tasks.find_one({"_id": new_task.inserted_id})
 
     return created_task
