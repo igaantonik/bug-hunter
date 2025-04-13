@@ -8,6 +8,8 @@ task_router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+tasks_collection = db.tasks
+
 
 @task_router.get("/", response_model=TaskCollection, status_code=200)
 async def get_tasks(skip: int = Query(0, qe=0), limit: int = Query(10, ge=1)):
@@ -16,7 +18,7 @@ async def get_tasks(skip: int = Query(0, qe=0), limit: int = Query(10, ge=1)):
     - **skip**: Number of tasks to skip (default: 0)
     - **limit**: Number of tasks to return (default: 10)
     """
-    tasks = await db.tasks.find().skip(skip).limit(limit).to_list(limit)
+    tasks = await tasks_collection.find().skip(skip).limit(limit).to_list(limit)
     return TaskCollection(tasks=tasks)
 
 
@@ -43,7 +45,7 @@ async def create_task(task: TaskModel = Body(...)):
         file = await read_local_file()
         task.file = file
 
-    new_task = await db.tasks.insert_one(task.model_dump(by_alias=True, exclude=["id"]))
-    created_task = await db.tasks.find_one({"_id": new_task.inserted_id})
+    new_task = await tasks_collection.insert_one(task.model_dump(by_alias=True, exclude=["id"]))
+    created_task = await tasks_collection.find_one({"_id": new_task.inserted_id})
 
     return created_task
