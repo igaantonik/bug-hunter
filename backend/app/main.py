@@ -1,11 +1,7 @@
 from fastapi import FastAPI
-from app.database import db
+from app.routers.task_router import task_router
 
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    db.admin.command("ping")
-    return {"Hello": "World"}
+app.include_router(task_router, prefix="/api/v1", tags=["tasks"])
