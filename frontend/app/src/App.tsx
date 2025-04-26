@@ -7,7 +7,7 @@ import './App.css';
 import NotFoundPage from './screens/NotFoundPage';
 
 function App() {
-    const loggedIn = false;
+    const loggedIn = true;
     return (
         <Routes>
             {loggedIn ? (
