@@ -5,12 +5,14 @@ import OnboardingPage from './screens/OnboardingPage';
 import TaskPage from './screens/ReviewPage';
 import './App.css';
 import NotFoundPage from './screens/NotFoundPage';
+import useUserStore from './store/useUserStore';
 
 function App() {
-    const loggedIn = true;
+    const { isOnboarded } = useUserStore();
+
     return (
         <Routes>
-            {loggedIn ? (
+            {isOnboarded ? (
                 <>
                     <Route path="" element={<LandingPage />} />
                     <Route path="review" element={<TaskPage />} />
