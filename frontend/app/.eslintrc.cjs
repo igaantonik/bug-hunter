@@ -18,6 +18,7 @@ module.exports = {
     },
     rules: {
         'react-hooks/exhaustive-deps': 'warn',
+        'react/require-default-props': 'off',
     },
     settings: {
         react: {
