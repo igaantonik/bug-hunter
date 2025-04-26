@@ -17,12 +17,11 @@ module.exports = {
         project: './tsconfig.json',
     },
     rules: {
-        // You can adjust the rule's severity or options from here
-        'react-hooks/exhaustive-deps': 'warn', // or "error" to enforce this as an error
+        'react-hooks/exhaustive-deps': 'warn',
     },
     settings: {
         react: {
-            version: 'detect', // Automatically detects the React version
+            version: 'detect',
         },
     },
     plugins: ['react', '@typescript-eslint', 'prettier'],
