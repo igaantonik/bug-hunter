@@ -8,7 +8,7 @@ PyObjectId = Annotated[str, BeforeValidator(str)]
 
 class Smell(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
-    name: str = Field(..., description="Name of the task")
+    name: str = Field(..., description="Name of the smell")
     model_config = ConfigDict(
         populate_by_name=True,
         arbitrary_types_allowed=True,
