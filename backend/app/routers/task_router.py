@@ -47,6 +47,13 @@ async def create_task(
     """
     Create a new task.
     """
+    filenames = [f.filename for f in req.files]
+    if len(filenames) != len(set(filenames)):
+        raise HTTPException(
+            status_code=400,
+            detail="File names must be unique",
+        )
+
     file_models = []
 
     for file in req.files:
