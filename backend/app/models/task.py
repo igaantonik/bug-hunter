@@ -6,7 +6,7 @@ from typing import Optional, List
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
-class TaskModel(BaseModel):
+class Task(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     name: str = Field(..., description="Name of the task")
     description: str = Field(..., description="Description of the task")
@@ -24,5 +24,5 @@ class TaskModel(BaseModel):
     )
 
 
-class TaskCollection(BaseModel):
-    tasks: List[TaskModel]
+class TasksCollection(BaseModel):
+    tasks: List[Task]
