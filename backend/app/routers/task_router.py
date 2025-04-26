@@ -48,7 +48,7 @@ async def create_task(
     Create a new task.
     """
     file_models = []
-    print(req.files)
+
     for file in req.files:
         lines = await _get_lines(file)
         file_models.append(
