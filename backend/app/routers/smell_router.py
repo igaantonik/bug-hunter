@@ -12,7 +12,7 @@ smells_collection = db.smells
 
 
 @smell_router.get("/", response_model=SmellsCollection, status_code=200)
-async def get_smells(skip: int = Query(0, qe=0), limit: int = Query(10, ge=1)):
+async def get_smells(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1)):
     """
     Get all smells with pagination.
     - **skip**: Number of smells to skip (default: 0)
@@ -29,7 +29,7 @@ async def create_smells(smell: Smell = Body(...)):
     """
 
     new_smell = await smells_collection.insert_one(
-        smell.model_dump(by_alias=True, exclude=["id"])
+        smell.model_dump(by_alias=True, exclude={"id"})
     )
     created_smell = await smells_collection.find_one({"_id": new_smell.inserted_id})
 

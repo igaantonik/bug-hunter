@@ -1,6 +1,9 @@
-from fastapi import APIRouter, Body, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, UploadFile, Depends
+
+from app.models.file import FileModel
 from app.models.task import Task, TasksCollection
 from app.database import db
+from app.requests.task_create_request import TaskCreateRequest
 
 task_router = APIRouter(
     prefix="/tasks",
@@ -12,7 +15,7 @@ tasks_collection = db.tasks
 
 
 @task_router.get("/", response_model=TasksCollection, status_code=200)
-async def get_tasks(skip: int = Query(0, qe=0), limit: int = Query(10, ge=1)):
+async def get_tasks(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1)):
     """
     Get all tasks with pagination.
     - **skip**: Number of tasks to skip (default: 0)
@@ -38,17 +41,52 @@ async def read_local_file(file_path: str = path_to_local_file) -> str:
 
 
 @task_router.post("/", response_model=Task, status_code=201)
-async def create_task(task: Task = Body(...)):
+async def create_task(
+    req: TaskCreateRequest = Depends(),
+):
     """
     Create a new task.
     """
-    if not task.file:
-        file = await read_local_file()
-        task.file = file
+    filenames = [f.filename for f in req.files]
+    if len(filenames) != len(set(filenames)):
+        raise HTTPException(
+            status_code=400,
+            detail="File names must be unique",
+        )
 
-    new_task = await tasks_collection.insert_one(
-        task.model_dump(by_alias=True, exclude=["id"])
+    file_models = []
+
+    for file in req.files:
+        lines = await _get_lines(file)
+        file_models.append(
+            FileModel(
+                name=file.filename,
+                lines=lines,
+            )
+        )
+
+    task = Task(
+        name=req.name,
+        description=req.description,
+        files=file_models,
     )
-    created_task = await tasks_collection.find_one({"_id": new_task.inserted_id})
 
-    return created_task
+    result = await tasks_collection.insert_one(
+        task.model_dump(by_alias=True, exclude={"id"})
+    )
+    created = await tasks_collection.find_one({"_id": result.inserted_id})
+
+    return created
+
+
+async def _get_lines(file: UploadFile) -> dict[str, str]:
+    """
+    Parses the content of a file and returns a dictionary mapping line numbers to their content.
+    """
+    content = await file.read()
+    text = content.decode("utf-8")
+    lines = {}
+    for i, line in enumerate(text.splitlines(), start=1):
+        lines[str(i)] = line
+
+    return lines
