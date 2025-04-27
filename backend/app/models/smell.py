@@ -1,9 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
-from pydantic.functional_validators import BeforeValidator
-from typing_extensions import Annotated
 from typing import Optional, List
 
-PyObjectId = Annotated[str, BeforeValidator(str)]
+from app.models.utils import PyObjectId
 
 
 class Smell(BaseModel):

@@ -1,9 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict
-from pydantic.functional_validators import BeforeValidator
-from typing_extensions import Annotated
 from typing import Optional, Dict
-
-PyObjectId = Annotated[str, BeforeValidator(str)]
+from app.models.utils import PyObjectId
 
 
 class FileModel(BaseModel):

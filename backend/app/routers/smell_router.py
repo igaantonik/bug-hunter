@@ -23,7 +23,7 @@ async def get_smells(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1)):
 
 
 @smell_router.post("/", response_model=Smell, status_code=201)
-async def create_smells(smell: Smell = Body(...)):
+async def create_smell(smell: Smell = Body(...)):
     """
     Create a new smell.
     """
