@@ -32,8 +32,8 @@ function TasksGallery() {
         <Container>
             <h2>Available Tasks</h2>
             <TasksGrid>
-                {TASKS.map((task, index) => (
-                    <TaskCard key={index} {...task} />
+                {TASKS.map((task) => (
+                    <TaskCard key={task.id} {...task} />
                 ))}
             </TasksGrid>
         </Container>

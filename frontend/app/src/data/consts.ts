@@ -1,72 +1,74 @@
-export const TASKS: { id: number; title: string; description: string }[] = [
+import { Task } from '../types';
+
+export const TASKS: Pick<Task, 'id' | 'name' | 'description'>[] = [
     {
-        id: 1,
-        title: 'Task 1 : Basic Python Functions saddhakadshkkdsdsahjkdahjkdsahjkasdhjdashjkdaskhjdsahkjdsahkjdhkjadshkjdsakhdhdafshlafsfbsdhjlfshjksdfhkjsdfhjfdshjkfskhjfsdhj',
+        id: '1',
+        name: 'Task 1 : Basic Python Functions saddhakadshkkdsdsahjkdahjkdsahjkasdhjdashjkdaskhjdsahkjdsahkjdhkjadshkjdsakhdhdafshlafsfbsdhjlfshjksdfhkjsdfhjfdshjkfskhjfsdhj',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 2,
-        title: 'Task 1 : Basic Python Functions',
+        id: '2',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 3,
-        title: 'Task 1 : Basic Python Functions',
+        id: '3',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 4,
-        title: 'Task 1 : Basic Python Functions',
+        id: '4',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 5,
-        title: 'Task 1 : Basic Python Functions',
+        id: '5',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 6,
-        title: 'Task 1 : Basic Python Functions',
+        id: '6',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 7,
-        title: 'Task 1 : Basic Python Functions',
+        id: '7',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 8,
-        title: 'Task 1 : Basic Python Functions',
+        id: '8',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 9,
-        title: 'Task 1 : Basic Python Functions',
+        id: '9',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 10,
-        title: 'Task 1 : Basic Python Functions',
+        id: '10',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 11,
-        title: 'Task 1 : Basic Python Functions',
+        id: '11',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 12,
-        title: 'Task 1 : Basic Python Functions',
+        id: '12',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 13,
-        title: 'Task 1 : Basic Python Functions',
+        id: '13',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
     {
-        id: 14,
-        title: 'Task 1 : Basic Python Functions',
+        id: '14',
+        name: 'Task 1 : Basic Python Functions',
         description: 'Identify bugs in simple Python functions',
     },
 ];

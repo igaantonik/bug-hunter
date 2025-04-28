@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Task } from '../../../types';
 
 const Card = styled.div`
     background-color: white;
@@ -34,13 +35,9 @@ const Card = styled.div`
     }
 `;
 
-interface TaskCardProps {
-    id: number;
-    title: string;
-    description: string;
-}
+type TaskCardProps = Pick<Task, 'id' | 'name' | 'description'>;
 
-function TaskCard({ id, title, description }: TaskCardProps) {
+function TaskCard({ id, name, description }: TaskCardProps) {
     const navigate = useNavigate();
 
     const taskCardClickHandler = () => {
@@ -49,7 +46,7 @@ function TaskCard({ id, title, description }: TaskCardProps) {
 
     return (
         <Card onClick={taskCardClickHandler}>
-            <h3>{title}</h3>
+            <h3>{name}</h3>
             <p>{description}</p>
         </Card>
     );
