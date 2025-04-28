@@ -3,6 +3,7 @@ from typing import Optional, List
 
 from app.models.file import FileModel
 from app.models.utils import PyObjectId
+from app.models.smell_record import SmellRecord
 
 
 class Task(BaseModel):
@@ -12,6 +13,10 @@ class Task(BaseModel):
     files: List[FileModel] = Field(
         default_factory=list,
         description="List of files associated with the task",
+    )
+    predefined_smells: List[SmellRecord] = Field(
+        alias="predefined_smells",
+        default_factory=list,
     )
     model_config = ConfigDict(
         populate_by_name=True,
@@ -31,6 +36,18 @@ class Task(BaseModel):
                             4: "hello_world()",
                         },
                     }
+                ],
+                "predefined_smells": [
+                    {
+                        "file_id": "file_id",
+                        "line": "1",
+                        "smell_id": "smell_id",
+                    },
+                    {
+                        "file_id": "file_id",
+                        "line": "7",
+                        "smell_id": "smell_id",
+                    },
                 ],
             }
         },
