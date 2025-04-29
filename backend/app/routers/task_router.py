@@ -100,7 +100,7 @@ def parse_smell_record(smell: str) -> dict:
     """
     Parses a semicolon-delimited smell record string into a structured dictionary.
     Expected format:
-    "file_id;line;file_id"
+    "file_id;line;smell_id"
     """
     parts = smell.split(';')
     return {
