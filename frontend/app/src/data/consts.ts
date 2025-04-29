@@ -92,3 +92,22 @@ export const MOCK_FILES: {
         lines: { '1': 'line 1', '2': 'line 2', '3': 'line 3' },
     },
 ];
+
+export const COLORS = [
+    '#66c5cc',
+    '#f6cf71',
+    '#f89c74',
+    '#dcb0f2',
+    '#87c55f',
+    '#9eb9f3',
+    '#fe88b1',
+    '#c9db74',
+    '#8be0a4',
+    '#b497e7',
+];
+
+export const SMELLS: { id: string | null; name: string }[] = [
+    { id: '1', name: 'Smell 1' },
+    { id: '2', name: 'Smell 2' },
+    { id: '3', name: 'Smell 3' },
+];
