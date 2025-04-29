@@ -6,10 +6,11 @@ import TaskPage from './screens/ReviewPage';
 import './App.css';
 import NotFoundPage from './screens/NotFoundPage';
 import useUserStore from './store/useUserStore';
+import { useTasksQuery } from './hooks/useTasksQuery';
 
 function App() {
     const { isOnboarded } = useUserStore();
-
+    useTasksQuery();
     return (
         <Routes>
             {isOnboarded ? (
