@@ -70,3 +70,25 @@ export const TASKS: { id: number; title: string; description: string }[] = [
         description: 'Identify bugs in simple Python functions',
     },
 ];
+
+export const MOCK_FILES: {
+    id: string;
+    name: string;
+    lines: Record<string, string>;
+}[] = [
+    {
+        id: '1',
+        name: 'file1.py',
+        lines: { '1': 'line 1', '2': 'line 2', '3': 'line 3' },
+    },
+    {
+        id: '2',
+        name: 'file2.py',
+        lines: { '1': 'line 1', '2': 'line 2', '3': 'line 3' },
+    },
+    {
+        id: '3',
+        name: 'file3.py',
+        lines: { '1': 'line 1', '2': 'line 2', '3': 'line 3' },
+    },
+];
