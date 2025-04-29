@@ -2,7 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import axiosInstance from '../../axiosInstance';
 import { Task } from '../../types';
 
-const TASKS_QUERY_KEY = 'tasks';
+export const TASKS_QUERY_KEY = 'tasks';
 
 export const useTasksQuery = () =>
     useSuspenseQuery<Task[]>({

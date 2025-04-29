@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '../../axiosInstance';
 import { Smell } from '../../types';
 
-const SMELLS_QUERY_KEY = 'smells';
+export const SMELLS_QUERY_KEY = 'smells';
 
 export const useSmellsQuery = () =>
     useQuery<Smell[]>({
