@@ -1,9 +1,6 @@
 # 🐞 Bug Hunter
 
-Bug Hunter is an interactive web application for practicing **code-review skills**.  
-Users review predefined source files, mark suspicious lines, and classify issues
-from a built-in catalogue. The app checks the answers and gives immediate
-feedback. Admins can create new tasks and assign them to groups.
+Bug Hunter is an interactive web application designed to help users improve their Code Review skills. Users can analyze predefined code files, highlight suspected issues, and assign error types from a predefined list. The system automatically evaluates the selections and provides feedback. The application supports skill development through hands-on practice, while administrators can add and manage tasks for different user groups.
 
 
 ## Running the whole app with Docker Compose
