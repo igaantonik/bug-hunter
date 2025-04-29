@@ -10,7 +10,7 @@ Bug Hunter is an interactive web application designed to help users improve thei
 ## 1. Clone the repository
 
 ```bash
-git clone https://github.com/…/bug-hunter.git
+git clone https://github.com/igaantonik/bug-hunter.git
 ```
 
 ## 3. Create a `.env` file
