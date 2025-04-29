@@ -1,30 +1,30 @@
 export interface Task {
-    id?: string;
+    _id?: string;
     name: string;
     description: string;
     files: File[];
 }
 
 export interface File {
-    id?: string;
+    _id?: string;
     name: string;
     lines: Record<string, string>;
 }
 
 export interface Review {
-    id?: string;
+    _id?: string;
     task_id: string;
     reviewed_smells: ReviewedSmell[];
 }
 
 export interface ReviewedSmell {
-    id?: string;
+    _id?: string;
     file_id: string;
     line: string;
     smell_id: string;
 }
 
 export interface Smell {
-    id?: string;
+    _id?: string;
     name: string;
 }

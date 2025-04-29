@@ -35,13 +35,13 @@ const Card = styled.div`
     }
 `;
 
-type TaskCardProps = Pick<Task, 'id' | 'name' | 'description'>;
+type TaskCardProps = Pick<Task, '_id' | 'name' | 'description'>;
 
-function TaskCard({ id, name, description }: TaskCardProps) {
+function TaskCard({ _id, name, description }: TaskCardProps) {
     const navigate = useNavigate();
 
     const taskCardClickHandler = () => {
-        navigate(`/review?taskId=${id}`);
+        navigate(`/review?taskId=${_id}`);
     };
 
     return (
