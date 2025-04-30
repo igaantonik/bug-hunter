@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
+import SuspenseWrapper from './SuspenseWrapper';
 
 const Container = styled.div<{ $centered?: boolean }>`
     width: 100vw;
@@ -23,7 +24,11 @@ interface PageContainerProps extends PropsWithChildren {
 }
 
 function PageContainer({ children, centered = false }: PageContainerProps) {
-    return <Container $centered={centered}>{children}</Container>;
+    return (
+        <Container $centered={centered}>
+            <SuspenseWrapper>{children}</SuspenseWrapper>
+        </Container>
+    );
 }
 
 export default PageContainer;

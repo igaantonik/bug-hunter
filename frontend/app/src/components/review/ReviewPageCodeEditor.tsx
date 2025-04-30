@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components';
-import { SMELLS } from '../../data/consts';
+import { File } from '../../types';
+import { useSmellsQuery } from '../../hooks/queries/useSmellsQuery';
+import { useCodeEditor } from '../../hooks/useCodeEditor';
 
 const Container = styled.div`
     background-color: green;
@@ -68,124 +70,39 @@ const MenuItem = styled.div`
     }
 `;
 
-interface ReviewedSmell {
-    id: string | null;
-    file_id: string;
-    line: string;
-    smell_id: string;
-}
-
 interface ReviewPageCodeEditorProps {
-    file: { id: string; name: string; lines: Record<string, string> };
+    file: File;
 }
 
 function ReviewPageCodeEditor({ file }: ReviewPageCodeEditorProps) {
-    const [hoveredLine, setHoveredLine] = React.useState<number | null>(null);
-    const [buttonTop, setButtonTop] = React.useState<number | null>(null);
-    const [reviewedSmells, setReviewedSmells] = React.useState<ReviewedSmell[]>(
-        []
-    );
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-    const [menuPosition, setMenuPosition] = React.useState<{
-        top: number;
-        left: number;
-    } | null>(null);
-    const [selectedLine, setSelectedLine] = React.useState<number | null>(null);
-
-    const codeWrapperRef = React.useRef<HTMLDivElement>(null);
-    const menuRef = React.useRef<HTMLDivElement>(null);
-
-    const handleMouseOverLine = (
-        event: React.MouseEvent,
-        lineNumber: number
-    ) => {
-        if (codeWrapperRef.current && !isMenuOpen) {
-            const lineElement = event.currentTarget as HTMLElement;
-            const topPosition = lineElement.offsetTop;
-            setHoveredLine(lineNumber);
-            setButtonTop(topPosition);
-        }
-    };
-
-    const handleMouseLeaveEditor = () => {
-        if (!isMenuOpen) {
-            setHoveredLine(null);
-            setButtonTop(null);
-        }
-    };
-
-    const handlePlusButtonClick = () => {
-        if (hoveredLine && buttonTop !== null) {
-            setSelectedLine(hoveredLine);
-            setMenuPosition({
-                top: buttonTop + 30,
-                left: 35,
-            });
-            setIsMenuOpen(true);
-        }
-    };
-
-    const handleSmellSelection = (smellId: string | null) => {
-        if (selectedLine) {
-            console.log(reviewedSmells);
-            const existingSmell = reviewedSmells.find(
-                (smell) =>
-                    smell.file_id === file.id &&
-                    smell.line === selectedLine.toString()
-            );
-            if (existingSmell) {
-                setReviewedSmells((prev) =>
-                    prev.filter(
-                        (smell) =>
-                            smell.file_id !== file.id ||
-                            smell.line !== selectedLine.toString()
-                    )
-                );
-            }
-            if (smellId) {
-                setReviewedSmells((prev) => [
-                    ...prev,
-                    {
-                        id: null,
-                        file_id: file.id,
-                        line: selectedLine.toString(),
-                        smell_id: smellId,
-                    },
-                ]);
-            }
-            setIsMenuOpen(false);
-            setSelectedLine(null);
-            setHoveredLine(null);
-            setButtonTop(null);
-        }
-    };
-
+    const { data: smells } = useSmellsQuery();
+    const {
+        showContextMenu,
+        contextMenuProps,
+        handleSmellSelection,
+        handleMouseOverLine,
+        plusButtonProps,
+        codeWrapperProps,
+    } = useCodeEditor({ file });
     return (
         <Container>
-            <h3>{file.name}</h3>
-            <CodeWrapper
-                ref={codeWrapperRef}
-                onMouseLeave={handleMouseLeaveEditor}
-            >
-                <PlusButton top={buttonTop} onClick={handlePlusButtonClick}>
-                    +
-                </PlusButton>
+            <h3>{file?.name}</h3>
+            <CodeWrapper {...codeWrapperProps}>
+                <PlusButton {...plusButtonProps}>+</PlusButton>
 
-                {isMenuOpen && menuPosition && (
-                    <ContextMenu
-                        ref={menuRef}
-                        top={menuPosition.top}
-                        left={menuPosition.left}
-                    >
-                        {SMELLS.map((smell) => (
+                {showContextMenu && (
+                    <ContextMenu {...contextMenuProps}>
+                        {smells?.map((smell) => (
                             <MenuItem
-                                key={smell.id}
-                                onClick={() => handleSmellSelection(smell.id)}
+                                key={smell._id}
+                                onClick={() => handleSmellSelection(smell._id)}
                             >
                                 {smell.name}
                             </MenuItem>
                         ))}
-                        <MenuItem onClick={() => handleSmellSelection(null)}>
+                        <MenuItem
+                            onClick={() => handleSmellSelection(undefined)}
+                        >
                             (Remove Smell)
                         </MenuItem>
                     </ContextMenu>

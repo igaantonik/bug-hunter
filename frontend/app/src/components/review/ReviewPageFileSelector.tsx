@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { File } from '../../types';
 
 const Container = styled.div`
     flex: 1;
@@ -35,7 +36,7 @@ const FilesListItem = styled.li<{ $isSelected: boolean }>`
 `;
 
 interface ReviewPageFileSelectorProps {
-    files: { id: string; name: string }[];
+    files: File[];
     selectedFileId: string;
     onFilesListItemClick: (fileId: string) => void;
 }
