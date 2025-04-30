@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import axiosInstance from '../../axiosInstance';
-import { Task } from '../../types';
+import axiosInstance from '../../../axiosInstance';
+import { Task } from '../../../types';
 
 export const TASKS_QUERY_KEY = 'tasks';
 

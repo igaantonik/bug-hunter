@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { File, ReviewedSmell } from '../types';
+import { useOnClickOutside } from 'usehooks-ts';
+import { File, ReviewedSmell } from '../../types';
 
 interface UseCodeEditorProps {
     file: File;
@@ -11,12 +12,12 @@ interface UseCodeEditorResult {
     showContextMenu: boolean;
     contextMenuProps: {
         ref: React.RefObject<HTMLDivElement | null>;
-        top: number;
+        top: number | null;
         left: number;
     };
     plusButtonProps: {
-        top: number;
-        handlePlusButtonClick: () => void;
+        top: number | number;
+        onClick: () => void;
     };
     codeWrapperProps: {
         ref: React.RefObject<HTMLDivElement | null>;
@@ -103,6 +104,10 @@ export const useCodeEditor = ({
         }
     };
 
+    useOnClickOutside(menuRef, () => {
+        setIsMenuOpen(false);
+    });
+
     return {
         handleMouseOverLine,
         handleSmellSelection,
@@ -113,8 +118,8 @@ export const useCodeEditor = ({
             top: menuPosition?.top ?? 0,
         },
         plusButtonProps: {
-            top: buttonTop ?? 0,
-            handlePlusButtonClick,
+            top: buttonTop,
+            onClick: handlePlusButtonClick,
         },
         codeWrapperProps: {
             ref: codeWrapperRef,

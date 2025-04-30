@@ -2,7 +2,7 @@ export interface Task {
     _id?: string;
     name: string;
     description: string;
-    files: File[];
+    files: string[];
 }
 
 export interface File {

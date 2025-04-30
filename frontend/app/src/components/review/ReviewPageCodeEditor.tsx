@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components';
 import { File } from '../../types';
-import { useSmellsQuery } from '../../hooks/queries/useSmellsQuery';
-import { useCodeEditor } from '../../hooks/useCodeEditor';
+import { useSmellsQuery } from '../../hooks/api/queries/useSmellsQuery';
+import { useCodeEditor } from '../../hooks/pages/useCodeEditor';
 
 const Container = styled.div`
     background-color: green;
@@ -23,11 +23,11 @@ const CodeWrapper = styled.div`
     position: relative; /* Potrzebne do pozycjonowania przycisku */
 `;
 
-const PlusButton = styled.button<{ top: number | null }>`
+const PlusButton = styled.button<{ $top: number | null }>`
     position: absolute;
     left: 10px;
-    top: ${(props) => props.top}px;
-    display: ${(props) => (props.top !== null ? 'flex' : 'none')};
+    top: ${(props) => props.$top}px;
+    display: ${(props) => (props.$top !== null ? 'flex' : 'none')};
     align-items: center;
     justify-content: center;
     width: 26px;
@@ -48,10 +48,10 @@ const PlusButton = styled.button<{ top: number | null }>`
     }
 `;
 
-const ContextMenu = styled.div<{ top: number; left: number }>`
+const ContextMenu = styled.div<{ $top: number | null; $left: number }>`
     position: absolute;
-    top: ${(props) => props.top}px;
-    left: ${(props) => props.left}px;
+    ${({ $top }) => ($top !== null ? `top: ${$top}px;` : '')}
+    left: ${({ $left }) => $left}px;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -88,10 +88,19 @@ function ReviewPageCodeEditor({ file }: ReviewPageCodeEditorProps) {
         <Container>
             <h3>{file?.name}</h3>
             <CodeWrapper {...codeWrapperProps}>
-                <PlusButton {...plusButtonProps}>+</PlusButton>
+                <PlusButton
+                    $top={plusButtonProps.top}
+                    onClick={plusButtonProps.onClick}
+                >
+                    +
+                </PlusButton>
 
                 {showContextMenu && (
-                    <ContextMenu {...contextMenuProps}>
+                    <ContextMenu
+                        ref={contextMenuProps.ref}
+                        $top={contextMenuProps.top}
+                        $left={contextMenuProps.left}
+                    >
                         {smells?.map((smell) => (
                             <MenuItem
                                 key={smell._id}
@@ -124,7 +133,6 @@ function ReviewPageCodeEditor({ file }: ReviewPageCodeEditorProps) {
                         style: {
                             display: 'block',
                             cursor: 'pointer',
-                            backgroundColor: 'red',
                             marginLeft: '30px',
                             marginRight: '30px',
                         },

@@ -37,8 +37,8 @@ const FilesListItem = styled.li<{ $isSelected: boolean }>`
 
 interface ReviewPageFileSelectorProps {
     files: File[];
-    selectedFileId: string;
-    onFilesListItemClick: (fileId: string) => void;
+    selectedFileId?: string;
+    onFilesListItemClick: (fileId?: string) => void;
 }
 
 function ReviewPageFileSelector({
@@ -52,9 +52,9 @@ function ReviewPageFileSelector({
             <FilesList>
                 {files.map((file) => (
                     <FilesListItem
-                        key={file.id}
-                        $isSelected={selectedFileId === file.id}
-                        onClick={() => onFilesListItemClick(file.id)}
+                        key={file._id}
+                        $isSelected={selectedFileId === file._id}
+                        onClick={() => onFilesListItemClick(file._id)}
                     >
                         {file.name}
                     </FilesListItem>

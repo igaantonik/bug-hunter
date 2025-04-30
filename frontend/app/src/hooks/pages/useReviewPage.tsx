@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { useTasksQuery } from './queries/useTasksQuery';
-import useURLQuery from './useURLQuery';
+import { useEffect, useState } from 'react';
+import { useTasksQuery } from '../api/queries/useTasksQuery';
+import useURLQuery from '../useURLQuery';
 import { useReviewPageTimer } from './useReviewPageTimer';
-import { useSmellsQuery } from './queries/useSmellsQuery';
-import { useCreateReviewMutation } from './mutations/useCreateReviewMutation';
-import { File } from '../types';
+import { useCreateReviewMutation } from '../api/mutations/useCreateReviewMutation';
+import { File } from '../../types';
+import { useFilesQuery } from '../api/queries/useFilesQuery';
 
 interface UseReviewPageResult {
     files: File[];
-    selectedFileId: string;
+    selectedFileId?: string;
     currentTimeFormattedSeconds: string;
-    filesListItemClickHandler: (fileId: string) => void;
+    filesListItemClickHandler: (fileId?: string) => void;
     reviewSubmitHandler: () => Promise<void>;
     selectedFile: File | undefined;
 }
@@ -20,13 +20,28 @@ export const useReviewPage = (): UseReviewPageResult => {
     const taskId = query.get('taskId');
 
     const { data: tasks } = useTasksQuery();
+    const { data: allFiles } = useFilesQuery();
     const currentTaskData = tasks.find((task) => task._id === taskId);
 
-    const [selectedFileId, setSelectedFileId] = useState(
-        currentTaskData?.files[0]?._id ?? ''
+    const taskFiles = allFiles?.filter(
+        (file) => file._id && currentTaskData?.files.includes(file._id)
     );
 
-    const selectedFile: File | undefined = currentTaskData?.files.find(
+    const [selectedFileId, setSelectedFileId] = useState<string | undefined>(
+        undefined
+    );
+
+    useEffect(() => {
+        if (
+            taskFiles &&
+            taskFiles[0] &&
+            taskFiles[0]._id &&
+            selectedFileId === undefined
+        )
+            setSelectedFileId(taskFiles[0]._id);
+    }, [taskFiles]);
+
+    const selectedFile: File | undefined = taskFiles?.find(
         (file) => file._id === selectedFileId
     );
 
@@ -42,15 +57,14 @@ export const useReviewPage = (): UseReviewPageResult => {
         });
     };
 
-    const filesListItemClickHandler = (fileId: string) => {
-        console.log('SETTING SELECTED ID TO', fileId);
+    const filesListItemClickHandler = (fileId?: string) => {
         setSelectedFileId(fileId);
     };
 
     return {
         currentTimeFormattedSeconds,
         selectedFileId,
-        files: currentTaskData?.files ?? [],
+        files: taskFiles ?? [],
         filesListItemClickHandler,
         reviewSubmitHandler,
         selectedFile,

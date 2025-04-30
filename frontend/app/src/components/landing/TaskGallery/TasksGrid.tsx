@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TaskCard from './TaskCard';
-import { useTasksQuery } from '../../../hooks/queries/useTasksQuery';
+import { useTasksQuery } from '../../../hooks/api/queries/useTasksQuery';
 
 const Container = styled.div`
     display: grid;
@@ -20,8 +20,20 @@ const Container = styled.div`
     }
 `;
 
+const NoTasksContainer = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
 function TasksGrid() {
     const { data: tasks } = useTasksQuery();
+
+    if (tasks.length === 0)
+        return (
+            <NoTasksContainer>
+                <p>Currently there are no available tasks :(</p>
+            </NoTasksContainer>
+        );
 
     return (
         <Container>

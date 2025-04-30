@@ -4,7 +4,7 @@ import PageContainer from '../components/PageContainer';
 import ReviewPageHeader from '../components/review/ReviewPageHeader';
 import ReviewPageFileSelector from '../components/review/ReviewPageFileSelector';
 import ReviewPageCodeEditor from '../components/review/ReviewPageCodeEditor';
-import { useReviewPage } from '../hooks/useReviewPage';
+import { useReviewPage } from '../hooks/pages/useReviewPage';
 
 const ReviewPageContent = styled.div`
     display: flex;
@@ -21,8 +21,6 @@ function ReviewPage() {
         reviewSubmitHandler,
         selectedFile,
     } = useReviewPage();
-
-    console.log(selectedFile, files);
 
     return (
         <PageContainer>

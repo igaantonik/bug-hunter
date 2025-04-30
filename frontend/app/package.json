@@ -16,10 +16,11 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.2",
-    "react-syntax-highlighter": "^15.6.1",
     "react-spinners": "^0.17.0",
+    "react-syntax-highlighter": "^15.6.1",
     "styled-components": "^6.1.17",
     "styled-system": "^5.1.5",
+    "usehooks-ts": "^3.1.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
