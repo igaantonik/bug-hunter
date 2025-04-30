@@ -2,9 +2,9 @@ import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components';
-import { File } from '../../types';
-import { useSmellsQuery } from '../../hooks/api/queries/useSmellsQuery';
+import { File, SmellWithColor } from '../../types';
 import { useCodeEditor } from '../../hooks/pages/useCodeEditor';
+import { useSmellsQuery } from '../../hooks/api/queries/useSmellsQuery';
 
 const Container = styled.div`
     background-color: green;
@@ -70,6 +70,19 @@ const MenuItem = styled.div`
     }
 `;
 
+const CodeSmellsGallery = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+
+    div {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+`;
+
 interface ReviewPageCodeEditorProps {
     file: File;
 }
@@ -117,6 +130,14 @@ function ReviewPageCodeEditor({ file }: ReviewPageCodeEditorProps) {
                     </ContextMenu>
                 )}
 
+                <CodeSmellsGallery>
+                    {smells?.map((smell) => (
+                        <>
+                            <div style={{ backgroundColor: smell.color }} />
+                            <p>{smell.name}</p>
+                        </>
+                    ))}
+                </CodeSmellsGallery>
                 <SyntaxHighlighter
                     showLineNumbers
                     language="javascript"

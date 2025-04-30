@@ -28,3 +28,7 @@ export interface Smell {
     _id?: string;
     name: string;
 }
+
+export interface SmellWithColor extends Smell {
+    color: string;
+}

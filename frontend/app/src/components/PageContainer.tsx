@@ -1,10 +1,9 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import SuspenseWrapper from './SuspenseWrapper';
 
 const Container = styled.div<{ $centered?: boolean }>`
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     background-color: rgb(243, 244, 246);
     display: flex;
     flex-direction: column;
