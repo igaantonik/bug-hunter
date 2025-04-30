@@ -7,12 +7,10 @@ class TaskCreateRequest:
         self,
         name: str = Form(..., description="Name of the task"),
         description: str = Form(..., description="Description of the task"),
-        files: List[UploadFile] = File(None, description="One or more files"),
-        predefined_smells: List[str] = Form(
-            None, description="List of predefined smells"
-        ),
+        files: List[str] = Form(
+            None, description="One or more files id"
+        )
     ):
         self.name = name
         self.description = description
         self.files = files or []
-        self.predefined_smells = predefined_smells or []

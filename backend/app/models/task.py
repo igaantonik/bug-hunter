@@ -10,13 +10,9 @@ class Task(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     name: str = Field(..., description="Name of the task")
     description: str = Field(..., description="Description of the task")
-    files: List[FileModel] = Field(
+    files: List[str] = Field(
         default_factory=list,
         description="List of files associated with the task",
-    )
-    predefined_smells: List[SmellRecord] = Field(
-        alias="predefined_smells",
-        default_factory=list,
     )
     model_config = ConfigDict(
         populate_by_name=True,
@@ -25,30 +21,8 @@ class Task(BaseModel):
             "example": {
                 "name": "Task",
                 "description": "This is simple task",
-                "file": "string representing file content here",
-                "files": [
-                    {
-                        "name": "script.py",
-                        "lines": {
-                            1: "def hello_world():",
-                            2: "    print('Hello, world!')",
-                            3: "",
-                            4: "hello_world()",
-                        },
-                    }
-                ],
-                "predefined_smells": [
-                    {
-                        "file_id": "file_id",
-                        "line": "1",
-                        "smell_id": "smell_id",
-                    },
-                    {
-                        "file_id": "file_id",
-                        "line": "7",
-                        "smell_id": "smell_id",
-                    },
-                ],
+                "files": ["file_001", "file_id", "file_002"],
+
             }
         },
     )

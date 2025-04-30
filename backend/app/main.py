@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routers.task_router import task_router
 from app.routers.smell_router import smell_router
 from app.routers.review_router import review_router
+from app.routers.file_router import file_router
 
 
 app = FastAPI()
@@ -24,3 +25,4 @@ app.add_middleware(
 app.include_router(task_router, prefix="/api/v1", tags=["tasks"])
 app.include_router(smell_router, prefix="/api/v1", tags=["smells"])
 app.include_router(review_router, prefix="/api/v1", tags=["reviews"])
+app.include_router(file_router, prefix="/api/v1", tags=["files"])

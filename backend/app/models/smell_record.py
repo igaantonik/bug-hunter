@@ -7,25 +7,25 @@ from app.models.utils import PyObjectId
 
 class SmellRecord(BaseModel):
     id: Optional[PyObjectId] = Field(
+        default=None,
         alias="_id",
-        default_factory=lambda: str(ObjectId()),
     )
-    file_id: PyObjectId = Field(alias="file_id")
     line: str = Field(
         ..., description="Line number in the file where the smell was found"
     )
     smell_id: PyObjectId = Field(alias="smell_id")
+
     model_config = ConfigDict(
         populate_by_name=True,
         arbitrary_types_allowed=True,
         json_schema_extra={
             "example": {
-                "file_id": "file_id",
                 "line": "1",
-                "smell_id": "smell_id",
+                "smell_id": "661babc123...",
             }
         },
     )
+
 
 
 class SmellRecordsCollection(BaseModel):
