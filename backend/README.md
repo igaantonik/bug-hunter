@@ -1,9 +1,25 @@
-# Bug Hunter
+# Backend – FastAPI service
 
-Bug Hunter is an interactive web application designed to help users improve their Code Review skills. Users can analyze predefined code files, highlight suspected issues, and assign error types from a predefined list. The system automatically evaluates the selections and provides feedback. The application supports skill development through hands-on practice, while administrators can add and manage tasks for different user groups.
-
-# Backend
-
-```shell
-poetry run uvicorn app.main:app --reload
+Prerequisites
+- Python 3.12
+- Poetry 2.1 or newer
+- MongoDB running at the address in .env file
+## Quick start
+### 1. Secrets
+```bash
+cd backend
+cp .env.example .env        # replace with your secrets
+```
+## 2. Install dependencies
+```bash
+poetry install            
+```
+## 3. Run the app
+```bash
+poetry run uvicorn app.main:app --reload --port 8000
+```
+---
+## Useful commands
+```bash
+poetry run ruff check app   # lint
 ```
