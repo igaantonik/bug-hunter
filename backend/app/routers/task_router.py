@@ -25,21 +25,6 @@ async def get_tasks(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1)):
     return TasksCollection(tasks=tasks)
 
 
-# internal code - for adding
-# TODO
-path_to_local_file = "path/to/local/file.txt"
-
-
-async def read_local_file(file_path: str = path_to_local_file) -> str:
-    try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            return file.read()
-    except Exception as e:
-        raise HTTPException(
-            status_code=400, detail=f"Failed to read the local file: {str(e)}"
-        )
-
-
 @task_router.post("/", response_model=Task, status_code=201)
 async def create_task(
     req: TaskCreateRequest = Depends(),
@@ -47,66 +32,21 @@ async def create_task(
     """
     Create a new task.
     """
-    filenames = [f.filename for f in req.files]
-    if len(filenames) != len(set(filenames)):
-        raise HTTPException(
-            status_code=400,
-            detail="File names must be unique",
-        )
-
-    file_models = []
-
-    for file in req.files:
-        lines = await _get_lines(file)
-        file_models.append(
-            FileModel(
-                name=file.filename,
-                lines=lines,
-            )
-        )
-
-    predefined_smell_models = [
-        parse_smell_record(smell) for smell in req.predefined_smells
-    ]
+    files = req.files[0].split(",")
+    file_ids = files
 
     task = Task(
         name=req.name,
         description=req.description,
-        files=file_models,
-        predefined_smells=predefined_smell_models,
+        files=file_ids,
     )
 
-    result = await tasks_collection.insert_one(
-        task.model_dump(by_alias=True, exclude={"id"})
-    )
+    result = await tasks_collection.insert_one(task.model_dump(by_alias=True, exclude={"id"}))
     created = await tasks_collection.find_one({"_id": result.inserted_id})
 
-    return created
+    return Task(**created)
 
 
-async def _get_lines(file: UploadFile) -> dict[str, str]:
-    """
-    Parses the content of a file and returns a dictionary mapping line numbers to their content.
-    """
-    content = await file.read()
-    text = content.decode("utf-8")
-    lines = {}
-    for i, line in enumerate(text.splitlines(), start=1):
-        lines[str(i)] = line
 
-    return lines
-
-def parse_smell_record(smell: str) -> dict:
-    """
-    Parses a semicolon-delimited smell record string into a structured dictionary.
-    Expected format:
-    "file_id;line;smell_id"
-    """
-    parts = smell.split(';')
-    return {
-        "file_id": parts[0],
-        "line": parts[1],
-        "smell_id": parts[2]
-    }
 
 

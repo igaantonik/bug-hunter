@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 from app.models.utils import PyObjectId
+from app.models.smell_record import SmellRecord
 
 
 class FileModel(BaseModel):
@@ -10,6 +11,7 @@ class FileModel(BaseModel):
     lines: Dict[str, str] = Field(
         ..., description="Mapping of line number (1-based) to the content of that line"
     )
+    smell_records: List[SmellRecord] = Field(default_factory=list)
     model_config = ConfigDict(
         populate_by_name=True,
         arbitrary_types_allowed=True,
@@ -22,6 +24,16 @@ class FileModel(BaseModel):
                     "3": "",
                     "4": "hello_world()",
                 },
+                "smell_records": [
+                    {
+                        "line": "1",
+                        "smell_id": "smell_id"
+                    }
+                ]
             }
         },
     )
+
+
+class FileCollection(BaseModel):
+    files: List[FileModel]
