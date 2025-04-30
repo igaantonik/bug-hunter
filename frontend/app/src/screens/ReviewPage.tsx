@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PageContainer from '../components/PageContainer';
-import useQuery from '../hooks/useQuery';
 import ReviewPageHeader from '../components/review/ReviewPageHeader';
-import { useReviewPageTimer } from '../hooks/useReviewPageTimer';
 import ReviewPageFileSelector from '../components/review/ReviewPageFileSelector';
 import ReviewPageCodeEditor from '../components/review/ReviewPageCodeEditor';
-import { MOCK_FILES } from '../data/consts';
+import { useReviewPage } from '../hooks/useReviewPage';
 
 const ReviewPageContent = styled.div`
     display: flex;
@@ -15,38 +13,29 @@ const ReviewPageContent = styled.div`
 `;
 
 function ReviewPage() {
-    const query = useQuery();
-    const taskId = query.get('taskId');
+    const {
+        currentTimeFormattedSeconds,
+        selectedFileId,
+        files,
+        filesListItemClickHandler,
+        reviewSubmitHandler,
+        selectedFile,
+    } = useReviewPage();
 
-    const [selectedFileId, setSelectedFileId] = useState(MOCK_FILES[0].id);
-
-    const { currentTimeSeconds, currentTimeFormattedSeconds } =
-        useReviewPageTimer();
-
-    const reviewSubmitHandler = () => {
-        console.log(taskId, currentTimeSeconds);
-    };
+    console.log(selectedFile, files);
 
     return (
         <PageContainer>
             <ReviewPageHeader currentTimeString={currentTimeFormattedSeconds} />
             <ReviewPageContent>
                 <ReviewPageFileSelector
-                    files={MOCK_FILES}
+                    files={files}
                     selectedFileId={selectedFileId}
-                    onFilesListItemClick={(fileId: string) =>
-                        setSelectedFileId(fileId)
-                    }
+                    onFilesListItemClick={filesListItemClickHandler}
                 />
-                <ReviewPageCodeEditor
-                    file={
-                        MOCK_FILES.find((file) => file.id === selectedFileId) ??
-                        MOCK_FILES[0]
-                    }
-                />
+                {selectedFile && <ReviewPageCodeEditor file={selectedFile} />}
             </ReviewPageContent>
         </PageContainer>
     );
 }
-
 export default ReviewPage;

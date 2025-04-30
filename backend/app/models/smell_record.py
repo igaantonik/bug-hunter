@@ -5,7 +5,7 @@ from typing import Optional, List
 from app.models.utils import PyObjectId
 
 
-class ReviewedSmell(BaseModel):
+class SmellRecord(BaseModel):
     id: Optional[PyObjectId] = Field(
         alias="_id",
         default_factory=lambda: str(ObjectId()),
@@ -28,5 +28,5 @@ class ReviewedSmell(BaseModel):
     )
 
 
-class ReviewedSmellsCollection(BaseModel):
-    smells: List[ReviewedSmell]
+class SmellRecordsCollection(BaseModel):
+    smells: List[SmellRecord]

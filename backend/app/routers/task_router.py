@@ -65,10 +65,15 @@ async def create_task(
             )
         )
 
+    predefined_smell_models = [
+        parse_smell_record(smell) for smell in req.predefined_smells
+    ]
+
     task = Task(
         name=req.name,
         description=req.description,
         files=file_models,
+        predefined_smells=predefined_smell_models,
     )
 
     result = await tasks_collection.insert_one(
@@ -90,3 +95,18 @@ async def _get_lines(file: UploadFile) -> dict[str, str]:
         lines[str(i)] = line
 
     return lines
+
+def parse_smell_record(smell: str) -> dict:
+    """
+    Parses a semicolon-delimited smell record string into a structured dictionary.
+    Expected format:
+    "file_id;line;smell_id"
+    """
+    parts = smell.split(';')
+    return {
+        "file_id": parts[0],
+        "line": parts[1],
+        "smell_id": parts[2]
+    }
+
+

@@ -111,3 +111,4 @@ export const SMELLS: { id: string | null; name: string }[] = [
     { id: '2', name: 'Smell 2' },
     { id: '3', name: 'Smell 3' },
 ];
+export const API_URL = 'http://127.0.0.1:8000/api/v1';
