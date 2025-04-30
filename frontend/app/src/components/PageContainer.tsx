@@ -24,11 +24,7 @@ interface PageContainerProps extends PropsWithChildren {
 }
 
 function PageContainer({ children, centered = false }: PageContainerProps) {
-    return (
-        <Container $centered={centered}>
-            <SuspenseWrapper>{children}</SuspenseWrapper>
-        </Container>
-    );
+    return <Container $centered={centered}>{children}</Container>;
 }
 
 export default PageContainer;
