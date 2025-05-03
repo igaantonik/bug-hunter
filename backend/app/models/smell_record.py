@@ -14,7 +14,6 @@ class SmellRecord(BaseModel):
         ..., description="Line number in the file where the smell was found"
     )
     smell_id: PyObjectId = Field(alias="smell_id")
-
     model_config = ConfigDict(
         populate_by_name=True,
         arbitrary_types_allowed=True,

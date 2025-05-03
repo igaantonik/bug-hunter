@@ -2,7 +2,7 @@ export interface Task {
     _id?: string;
     name: string;
     description: string;
-    files: File[];
+    files: string[];
 }
 
 export interface File {
@@ -27,4 +27,8 @@ export interface ReviewedSmell {
 export interface Smell {
     _id?: string;
     name: string;
+}
+
+export interface SmellWithColor extends Smell {
+    color: string;
 }

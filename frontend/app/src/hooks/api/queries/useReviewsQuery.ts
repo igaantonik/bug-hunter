@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import axiosInstance from '../../axiosInstance';
-import { Review } from '../../types';
+import axiosInstance from '../../../axiosInstance';
+import { Review } from '../../../types';
 
 export const REVIEWS_QUERY_KEY = 'reviews';
 

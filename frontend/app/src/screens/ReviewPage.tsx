@@ -1,35 +1,39 @@
 import React from 'react';
+import styled from 'styled-components';
 import PageContainer from '../components/PageContainer';
-import useURLQuery from '../hooks/useURLQuery';
-import { useSmellsQuery } from '../hooks/queries/useSmellsQuery';
-import { useReviewsQuery } from '../hooks/queries/useReviewsQuery';
-import { useCreateReviewMutation } from '../hooks/mutations/useCreateReviewMutation';
+import ReviewPageHeader from '../components/review/ReviewPageHeader';
+import ReviewPageFileSelector from '../components/review/ReviewPageFileSelector';
+import ReviewPageCodeEditor from '../components/review/ReviewPageCodeEditor';
+import { useReviewPage } from '../hooks/pages/useReviewPage';
+
+const ReviewPageContent = styled.div`
+    display: flex;
+    flex: 1;
+    gap: 10px;
+`;
 
 function ReviewPage() {
-    const query = useURLQuery();
-    const taskId = query.get('taskId');
-    const { data: smells } = useSmellsQuery();
-    const { data: reviews } = useReviewsQuery();
-    const { mutateAsync: createNewReview } = useCreateReviewMutation();
-
-    const createNewReviewHandler = async () => {
-        await createNewReview({ reviewed_smells: [], task_id: taskId ?? '' });
-    };
+    const {
+        currentTimeFormattedSeconds,
+        selectedFileId,
+        files,
+        filesListItemClickHandler,
+        reviewSubmitHandler,
+        selectedFile,
+    } = useReviewPage();
 
     return (
         <PageContainer>
-            <p>ReviewPage - taskId: {taskId}</p>
-            <p>Reviews</p>
-            {reviews?.map((review) => (
-                <p>
-                    {review._id} - {review.task_id}
-                </p>
-            ))}
-            <button type="button" onClick={createNewReviewHandler}>
-                Test creating a review
-            </button>
+            <ReviewPageHeader currentTimeString={currentTimeFormattedSeconds} />
+            <ReviewPageContent>
+                <ReviewPageFileSelector
+                    files={files}
+                    selectedFileId={selectedFileId}
+                    onFilesListItemClick={filesListItemClickHandler}
+                />
+                {selectedFile && <ReviewPageCodeEditor file={selectedFile} />}
+            </ReviewPageContent>
         </PageContainer>
     );
 }
-
 export default ReviewPage;
