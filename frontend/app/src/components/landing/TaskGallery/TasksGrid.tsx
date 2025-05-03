@@ -6,7 +6,7 @@ import { useTasksQuery } from '../../../hooks/api/queries/useTasksQuery';
 const Container = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    max-width: 80%;
+    width: 80%;
     margin: 0 auto;
     gap: 20px;
     padding: 20px;
