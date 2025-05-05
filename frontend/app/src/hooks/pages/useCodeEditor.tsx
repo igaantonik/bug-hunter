@@ -97,7 +97,6 @@ export const useCodeEditor = ({
                     },
                 ]);
             }
-            console.log(reviewedSmells);
             setIsMenuOpen(false);
             setSelectedLine(null);
             setHoveredLine(null);

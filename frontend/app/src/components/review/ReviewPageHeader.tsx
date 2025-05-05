@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import styled from 'styled-components';
+import { formatTime } from '../../util/formatTime';
+import { useReviewPageTimer } from '../../hooks/pages/useReviewPageTimer';
 
 const Header = styled.header`
     display: flex;
@@ -25,15 +27,20 @@ const Header = styled.header`
     }
 `;
 
+const TimerContainer = styled.div``;
+
 interface ReviewPageHeaderProps {
-    currentTimeString: string;
+    timerRef: RefObject<number>;
 }
 
-function ReviewPageHeader({ currentTimeString }: ReviewPageHeaderProps) {
+function ReviewPageHeader({ timerRef }: ReviewPageHeaderProps) {
+    const { currentTimeSeconds } = useReviewPageTimer();
+
+    if (timerRef) timerRef.current = currentTimeSeconds;
     return (
         <Header>
             <h3>Task: Basic Python Functions</h3>
-            <p>{currentTimeString}</p>
+            <TimerContainer>{formatTime(currentTimeSeconds)}</TimerContainer>
         </Header>
     );
 }

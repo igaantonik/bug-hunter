@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 interface UseReviewPageTimerResult {
     currentTimeSeconds: number;
-    currentTimeFormattedSeconds: string;
 }
 
 export const useReviewPageTimer = (): UseReviewPageTimerResult => {
@@ -37,14 +36,7 @@ export const useReviewPageTimer = (): UseReviewPageTimerResult => {
         return () => stopTimer();
     }, []);
 
-    function formatTime(currentTimeSeconds: number) {
-        const minutes = Math.floor(currentTimeSeconds / 60);
-        const remainingSeconds = currentTimeSeconds % 60;
-        return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-    }
-
     return {
         currentTimeSeconds: seconds,
-        currentTimeFormattedSeconds: formatTime(seconds),
     };
 };

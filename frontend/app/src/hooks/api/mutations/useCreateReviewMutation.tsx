@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Review } from '../../../types';
-import axiosInstance from '../../../axiosInstance';
+import axiosInstance from '../../../query/axiosInstance';
 import { REVIEWS_QUERY_KEY } from '../queries/useReviewsQuery';
 
 export const useCreateReviewMutation = () => {

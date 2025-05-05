@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axiosInstance from '../../../axiosInstance';
+import axiosInstance from '../../../query/axiosInstance';
 import { Smell, SmellWithColor } from '../../../types';
 import { generatePastelRGBColor } from '../../../util/generatePastelRGBColor';
 

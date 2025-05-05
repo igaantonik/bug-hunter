@@ -1,23 +1,27 @@
-import { useEffect, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { useTasksQuery } from '../api/queries/useTasksQuery';
 import useURLQuery from '../useURLQuery';
-import { useReviewPageTimer } from './useReviewPageTimer';
 import { useCreateReviewMutation } from '../api/mutations/useCreateReviewMutation';
 import { File } from '../../types';
 import { useFilesQuery } from '../api/queries/useFilesQuery';
 
 interface UseReviewPageResult {
-    files: File[];
-    selectedFileId?: string;
-    currentTimeFormattedSeconds: string;
-    filesListItemClickHandler: (fileId?: string) => void;
     reviewSubmitHandler: () => Promise<void>;
+    timerRef: RefObject<number>;
     selectedFile: File | undefined;
+
+    fileSelectorProps: {
+        files: File[];
+        selectedFileId?: string;
+        onFilesListItemClick: (fileId?: string) => void;
+    };
 }
 
 export const useReviewPage = (): UseReviewPageResult => {
     const query = useURLQuery();
     const taskId = query.get('taskId');
+
+    const timerRef = useRef(0);
 
     const { data: tasks } = useTasksQuery();
     const { data: allFiles } = useFilesQuery();
@@ -39,14 +43,11 @@ export const useReviewPage = (): UseReviewPageResult => {
             selectedFileId === undefined
         )
             setSelectedFileId(taskFiles[0]._id);
-    }, [taskFiles]);
+    }, [taskFiles, selectedFileId]);
 
     const selectedFile: File | undefined = taskFiles?.find(
         (file) => file._id === selectedFileId
     );
-
-    const { currentTimeSeconds, currentTimeFormattedSeconds } =
-        useReviewPageTimer();
 
     const { mutateAsync: createNewReview } = useCreateReviewMutation();
 
@@ -62,11 +63,13 @@ export const useReviewPage = (): UseReviewPageResult => {
     };
 
     return {
-        currentTimeFormattedSeconds,
-        selectedFileId,
-        files: taskFiles ?? [],
-        filesListItemClickHandler,
-        reviewSubmitHandler,
         selectedFile,
+        reviewSubmitHandler,
+        timerRef,
+        fileSelectorProps: {
+            selectedFileId,
+            files: taskFiles ?? [],
+            onFilesListItemClick: filesListItemClickHandler,
+        },
     };
 };
