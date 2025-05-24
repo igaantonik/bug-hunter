@@ -10,8 +10,10 @@ class SmellRecord(BaseModel):
         default=None,
         alias="_id",
     )
-    line: str = Field(
-        ..., description="Line number in the file where the smell was found"
+    lines: List[int] = Field(
+        ...,
+        description="List of line numbers in the file where the smell occurs",
+        min_length=1,
     )
     smell_id: PyObjectId = Field(alias="smell_id")
 
@@ -20,12 +22,11 @@ class SmellRecord(BaseModel):
         arbitrary_types_allowed=True,
         json_schema_extra={
             "example": {
-                "line": "1",
+                "lines": [1, 2, 3],
                 "smell_id": "661babc123...",
             }
         },
     )
-
 
 
 class SmellRecordsCollection(BaseModel):

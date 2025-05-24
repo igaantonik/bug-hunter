@@ -41,12 +41,9 @@ async def create_task(
         files=file_ids,
     )
 
-    result = await tasks_collection.insert_one(task.model_dump(by_alias=True, exclude={"id"}))
+    result = await tasks_collection.insert_one(
+        task.model_dump(by_alias=True, exclude={"id"})
+    )
     created = await tasks_collection.find_one({"_id": result.inserted_id})
 
     return Task(**created)
-
-
-
-
-
