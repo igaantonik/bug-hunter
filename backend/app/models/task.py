@@ -14,6 +14,10 @@ class Task(BaseModel):
         default_factory=list,
         description="List of files associated with the task",
     )
+    allowed_time: int = Field(
+        default=0,
+        description="Allowed time for the task in seconds. 0 means no limit",
+    )
     model_config = ConfigDict(
         populate_by_name=True,
         arbitrary_types_allowed=True,
@@ -22,6 +26,7 @@ class Task(BaseModel):
                 "name": "Task",
                 "description": "This is simple task",
                 "files": ["file_001", "file_id", "file_002"],
+                "allowed_time": 3600,
             }
         },
     )
