@@ -7,9 +7,7 @@ class TaskCreateRequest:
         self,
         name: str = Form(..., description="Name of the task"),
         description: str = Form(..., description="Description of the task"),
-        files: List[str] = Form(
-            None, description="One or more files id"
-        )
+        files: List[str] = Form(None, description="One or more files id"),
     ):
         self.name = name
         self.description = description

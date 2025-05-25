@@ -10,6 +10,5 @@ class FileCreateRequest:
             None, description="List of predefined smells"
         ),
     ):
-
         self.file = file
         self.predefined_smells = predefined_smells or []

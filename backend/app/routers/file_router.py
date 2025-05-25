@@ -4,9 +4,7 @@ from app.requests.file_create_request import FileCreateRequest
 from app.database import db
 
 file_router = APIRouter(
-    prefix="/files",
-    tags=["files"],
-    responses={404: {"description": "Not found"}}
+    prefix="/files", tags=["files"], responses={404: {"description": "Not found"}}
 )
 
 files_collection = db.files
@@ -24,25 +22,24 @@ async def get_files(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1)):
 
 
 @file_router.post("/", response_model=FileModel)
-async def create_file_record(
-        req: FileCreateRequest = Depends()
-):
+async def create_file_record(req: FileCreateRequest = Depends()):
     """
     Create a new file record.
     """
 
     lines = await _get_lines(req.file)
     smells = req.predefined_smells[0].split(",")
-    predefined_smell_models = [
-        parse_smell_record(smell) for smell in smells
-    ]
+    predefined_smell_models = [parse_smell_record(smell) for smell in smells]
 
     file_model = FileModel(
         name=req.file.filename,
         lines=lines,
-        smell_records=predefined_smell_models, )
+        smell_records=predefined_smell_models,
+    )
 
-    result = await files_collection.insert_one(file_model.model_dump(by_alias=True, exclude={"id"}))
+    result = await files_collection.insert_one(
+        file_model.model_dump(by_alias=True, exclude={"id"})
+    )
     created = await files_collection.find_one({"_id": result.inserted_id})
     return created
 
@@ -67,8 +64,5 @@ def parse_smell_record(smell: str) -> dict:
     "line;smell_id"
     """
 
-    parts = smell.split(';')
-    return {
-        "line": parts[0],
-        "smell_id": parts[1]
-    }
+    parts = smell.split(";")
+    return {"lines": parts[0], "smell_id": parts[1]}

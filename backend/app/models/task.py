@@ -22,7 +22,6 @@ class Task(BaseModel):
                 "name": "Task",
                 "description": "This is simple task",
                 "files": ["file_001", "file_id", "file_002"],
-
             }
         },
     )
