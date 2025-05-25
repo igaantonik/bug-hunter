@@ -1,9 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 
-from app.models.file import FileModel
 from app.models.utils import PyObjectId
-from app.models.smell_record import SmellRecord
 
 
 class Task(BaseModel):

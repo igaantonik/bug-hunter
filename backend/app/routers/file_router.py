@@ -65,4 +65,4 @@ def parse_smell_record(smell: str) -> dict:
     """
 
     parts = smell.split(";")
-    return {"line": parts[0], "smell_id": parts[1]}
+    return {"lines": parts[0], "smell_id": parts[1]}
