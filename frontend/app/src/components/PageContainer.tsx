@@ -2,7 +2,8 @@ import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div<{ $centered?: boolean }>`
-    flex: 1;
+    width: 100vw;
+    height: 100vh;
     background-color: rgb(243, 244, 246);
     display: flex;
     flex-direction: column;

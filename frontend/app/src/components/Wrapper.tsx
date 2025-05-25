@@ -1,18 +1,16 @@
-import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { PropsWithChildren, StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import SuspenseWithErrorBoundary from './SuspenseWithErrorBoundary';
-import queryClient from '../queryClient';
 
 function Wrapper({ children }: PropsWithChildren) {
+    const queryClient = new QueryClient();
+
     return (
         <StrictMode>
             <BrowserRouter>
-                <SuspenseWithErrorBoundary>
-                    <QueryClientProvider client={queryClient}>
-                        {children}
-                    </QueryClientProvider>
-                </SuspenseWithErrorBoundary>
+                <QueryClientProvider client={queryClient}>
+                    {children}
+                </QueryClientProvider>
             </BrowserRouter>
         </StrictMode>
     );

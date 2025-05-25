@@ -21,7 +21,6 @@ module.exports = {
         'react/require-default-props': 'off',
         'react/jsx-props-no-spreading': 'off',
         'import/prefer-default-export': 'off',
-        'no-underscore-dangle': 'off',
     },
     settings: {
         react: {

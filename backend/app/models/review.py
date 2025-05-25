@@ -12,6 +12,14 @@ class Review(BaseModel):
         alias="reviewed_smells",
         default_factory=list,
     )
+    username: str = Field(
+        alias="username",
+        description="Username of the reviewer",
+    )
+    time: int = Field(
+        alias="time",
+        description="Time taken for the review in seconds",
+    )
 
 
 class ReviewsCollection(BaseModel):
