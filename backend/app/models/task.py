@@ -23,7 +23,7 @@ class Task(BaseModel):
             "example": {
                 "name": "Task",
                 "description": "This is simple task",
-                "files": ["file_001", "file_id", "file_002"],
+                "files": ["file_id_1", "file_id_2", "file_id_3"],
                 "allowed_time": 3600,
             }
         },

@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Query, HTTPException, UploadFile, Depends
+from fastapi import APIRouter, Query, Depends
 
-from app.models.file import FileModel
 from app.models.task import Task, TasksCollection
 from app.database import db
 from app.requests.task_create_request import TaskCreateRequest

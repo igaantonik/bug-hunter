@@ -1,5 +1,7 @@
-from fastapi import APIRouter, Body, Query
+from fastapi import APIRouter, Body, HTTPException, Query
 from app.models.feedback import Feedback, FeedbacksCollection
+from app.models.task import Task
+from app.models.review import Review
 from app.database import db
 
 feedback_router = APIRouter(
@@ -9,6 +11,9 @@ feedback_router = APIRouter(
 )
 
 feedbacks_collection = db.feedbacks
+reviews_collection = db.reviews
+tasks_collection = db.tasks
+files_collection = db.files
 
 
 @feedback_router.get("/", response_model=FeedbacksCollection, status_code=200)
@@ -23,10 +28,30 @@ async def get_feedbacks(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1)
 
 
 @feedback_router.post("/", response_model=Feedback, status_code=201)
-async def create_feedback(feedback: Feedback = Body(...)):
+async def create_feedback(review_id: int = Body(...)):
     """
     Create a new feedback.
     """
+
+    review = await reviews_collection.find_one({"_id": review_id})
+
+    if not review:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Review with id {review_id} not found.",
+        )
+
+    task = await tasks_collection.find_one({"_id": review.task_id})
+
+    if not task:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Task with id {review.task_id} not found.",
+        )
+
+    score, max_score = await _calculate_score(task, review)
+
+    feedback = Feedback(review_id=review_id, score=score, max_score=max_score)
 
     new_feedback = await feedbacks_collection.insert_one(
         feedback.model_dump(by_alias=True, exclude={"id"})
@@ -36,3 +61,51 @@ async def create_feedback(feedback: Feedback = Body(...)):
     )
 
     return created_feedback
+
+
+async def _calculate_score(task: Task, review: Review) -> int:
+    """
+    Calculate the score based on the task and review.
+    For each correct match between line in the file and the smell +1 and for fully correct identified smell +1.
+    """
+
+    score = 0
+    max_score = 0
+
+    file_ids = task.files
+    reviewed_smells = review.reviewed_smells
+
+    review_answers = dict()
+
+    for reviewed_smell in reviewed_smells:
+        if reviewed_smell.file_id not in review_answers:
+            review_answers[reviewed_smell.file_id] = dict()
+
+        review_answers[reviewed_smell.file_id][reviewed_smell.smell_id] = set(
+            reviewed_smell.lines
+        )
+
+    for file_id in file_ids:
+        file = await files_collection.find_one({"_id": file_id})
+
+        if not file or file_id not in review_answers:
+            continue
+
+        smell_records = file.smell_records
+
+        for smell_record in smell_records:
+            answers = (
+                review_answers[file_id][smell_record.smell_id]
+                if smell_record.smell_id in review_answers[file_id]
+                else set()
+            )
+
+            max_score += len(smell_record.lines)
+            tmp_score = len(answers.intersection(smell_record.lines))
+
+            if tmp_score == len(smell_record.lines):
+                score += 1
+
+            score += tmp_score
+
+    return score, max_score
