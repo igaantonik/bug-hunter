@@ -1,5 +1,9 @@
+import re
+from typing import List
+
 from fastapi import APIRouter, Depends, UploadFile, Query
 from app.models.file import FileModel, FileCollection
+from app.models.smell_record import SmellRecord
 from app.requests.file_create_request import FileCreateRequest
 from app.database import db
 
@@ -28,8 +32,7 @@ async def create_file_record(req: FileCreateRequest = Depends()):
     """
 
     lines = await _get_lines(req.file)
-    smells = req.predefined_smells[0].split(",")
-    predefined_smell_models = [parse_smell_record(smell) for smell in smells]
+    predefined_smell_models = parse_serialized_smells(req.predefined_smells[0])
 
     file_model = FileModel(
         name=req.file.filename,
@@ -57,12 +60,22 @@ async def _get_lines(file: UploadFile) -> dict[str, str]:
     return lines
 
 
-def parse_smell_record(smell: str) -> dict:
+def parse_serialized_smells(input_str: str) -> List[SmellRecord]:
     """
-    Parses a semicolon-delimited smell record string into a structured dictionary.
-    Expected format:
-    "line;smell_id"
-    """
+    Parses a comma-separated list of smell record strings into a list of tuples.
+    Each record is expected to be in the format: "[line1,line2,...];smell_id"
+    Multiple records are comma-separated:
+        Example: "[1,2,3];a1b2c3,[10,20,2,3];xxxxxxx"
 
-    parts = smell.split(";")
-    return {"lines": parts[0], "smell_id": parts[1]}
+    Returns:
+        A list of tuples (list of line numbers, smell ID)
+    """
+    pattern = r"\[(.*?)\];([a-zA-Z0-9]+)"
+    matches = re.findall(pattern, input_str)
+
+    smells = []
+    for lines_str, smell_id_str in matches:
+        lines = [int(l.strip()) for l in lines_str.split(",") if l.strip()]
+        smells.append({"lines": lines, "smell_id": smell_id_str})
+
+    return smells
