@@ -24,12 +24,7 @@ class FileModel(BaseModel):
                     "3": "",
                     "4": "hello_world()",
                 },
-                "smell_records": [
-                    {
-                        "line": "1",
-                        "smell_id": "smell_id"
-                    }
-                ]
+                "smell_records": [{"lines": [1, 2], "smell_id": "smell_id"}],
             }
         },
     )

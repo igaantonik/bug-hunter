@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Query, HTTPException, UploadFile, Depends
+from fastapi import APIRouter, Query, Depends
 
-from app.models.file import FileModel
 from app.models.task import Task, TasksCollection
 from app.database import db
 from app.requests.task_create_request import TaskCreateRequest
@@ -41,12 +40,9 @@ async def create_task(
         files=file_ids,
     )
 
-    result = await tasks_collection.insert_one(task.model_dump(by_alias=True, exclude={"id"}))
+    result = await tasks_collection.insert_one(
+        task.model_dump(by_alias=True, exclude={"id"})
+    )
     created = await tasks_collection.find_one({"_id": result.inserted_id})
 
     return Task(**created)
-
-
-
-
-
