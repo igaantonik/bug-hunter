@@ -3,25 +3,21 @@ export interface Task {
     name: string;
     description: string;
     files: string[];
+    allowed_time: number | null;
 }
 
 export interface File {
     _id?: string;
     name: string;
     lines: Record<string, string>;
+    smell_records: SmellRecord[];
 }
 
-export interface Review {
-    _id?: string;
-    task_id: string;
-    reviewed_smells: ReviewedSmell[];
-}
-
-export interface ReviewedSmell {
-    _id?: string;
-    file_id: string;
-    line: string;
+export interface SmellRecord {
+    id?: string;
+    lines: number[];
     smell_id: string;
+    file_id: string;
 }
 
 export interface Smell {
@@ -31,4 +27,19 @@ export interface Smell {
 
 export interface SmellWithColor extends Smell {
     color: string;
+}
+
+export interface Review {
+    _id?: string;
+    task_id: string;
+    reviewed_smells: SmellRecord[];
+    username: string;
+    time: number;
+}
+
+export interface Feedback {
+    id?: string;
+    review_id: string;
+    score: number;
+    max_score: number;
 }

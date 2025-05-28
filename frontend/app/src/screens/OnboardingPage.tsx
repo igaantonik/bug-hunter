@@ -1,5 +1,5 @@
 import React from 'react';
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/shared/PageContainer';
 import EnterNameForm from '../components/onboarding/EnterNameForm';
 
 function OnboardingPage() {

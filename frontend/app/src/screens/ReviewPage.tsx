@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import PageContainer from '../components/PageContainer';
+import PageContainer from '../components/shared/PageContainer';
 import ReviewPageHeader from '../components/review/ReviewPageHeader';
 import ReviewPageFileSelector from '../components/review/ReviewPageFileSelector';
-import ReviewPageCodeEditor from '../components/review/ReviewPageCodeEditor';
+import ReviewPageCodeEditor from '../components/review/ReviewPageCodeEditor/ReviewPageCodeEditor';
 import { useReviewPage } from '../hooks/pages/useReviewPage';
 
 const ReviewPageContent = styled.div`
@@ -18,7 +18,7 @@ function ReviewPage() {
 
     return (
         <PageContainer>
-            <ReviewPageHeader timerRef={timerRef} />
+            <ReviewPageHeader timerRef={timerRef} allowedTime={10} />
             <ReviewPageContent>
                 <ReviewPageFileSelector {...fileSelectorProps} />
                 {selectedFile && <ReviewPageCodeEditor file={selectedFile} />}

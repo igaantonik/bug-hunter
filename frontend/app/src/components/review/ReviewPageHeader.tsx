@@ -31,16 +31,21 @@ const TimerContainer = styled.div``;
 
 interface ReviewPageHeaderProps {
     timerRef: RefObject<number>;
+    allowedTime: number | null;
 }
 
-function ReviewPageHeader({ timerRef }: ReviewPageHeaderProps) {
-    const { currentTimeSeconds } = useReviewPageTimer();
+function ReviewPageHeader({ timerRef, allowedTime }: ReviewPageHeaderProps) {
+    const { currentTimeSeconds } = useReviewPageTimer(allowedTime ?? 0);
 
     if (timerRef) timerRef.current = currentTimeSeconds;
     return (
         <Header>
             <h3>Task: Basic Python Functions</h3>
-            <TimerContainer>{formatTime(currentTimeSeconds)}</TimerContainer>
+            {allowedTime !== null && (
+                <TimerContainer>
+                    {formatTime(currentTimeSeconds)}
+                </TimerContainer>
+            )}
         </Header>
     );
 }

@@ -52,10 +52,10 @@ export const useReviewPage = (): UseReviewPageResult => {
     const { mutateAsync: createNewReview } = useCreateReviewMutation();
 
     const reviewSubmitHandler = async () => {
-        await createNewReview({
-            reviewed_smells: [],
-            task_id: taskId ?? '',
-        });
+        // await createNewReview({
+        //     reviewed_smells: [],
+        //     task_id: taskId ?? '',
+        // });
     };
 
     const filesListItemClickHandler = (fileId?: string) => {

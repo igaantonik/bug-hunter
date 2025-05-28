@@ -4,9 +4,12 @@ interface UseReviewPageTimerResult {
     currentTimeSeconds: number;
 }
 
-export const useReviewPageTimer = (): UseReviewPageTimerResult => {
-    const [seconds, setSeconds] = useState(0);
+export const useReviewPageTimer = (
+    initialTimeSeconds: number
+): UseReviewPageTimerResult => {
+    const [seconds, setSeconds] = useState(initialTimeSeconds);
     const [isActive, setIsActive] = useState(false);
+    const [timerInterval, setTimerInterval] = useState<any>(null);
 
     function startTimer() {
         setIsActive(true);
@@ -17,17 +20,14 @@ export const useReviewPageTimer = (): UseReviewPageTimerResult => {
     }
 
     useEffect(() => {
-        let interval = null;
-        if (isActive) {
-            interval = setInterval(() => {
-                setSeconds((prev) => prev + 1);
+        if (isActive && !timerInterval) {
+            const interval = setInterval(() => {
+                setSeconds((prev) => prev - 1);
             }, 1000);
-        } else if (!isActive && seconds !== 0 && interval) {
-            clearInterval(interval);
+            setTimerInterval(interval);
+        } else if ((!isActive || seconds === 0) && timerInterval) {
+            clearInterval(timerInterval);
         }
-        return () => {
-            if (interval) clearInterval(interval);
-        };
     }, [isActive, seconds]);
 
     useEffect(() => {

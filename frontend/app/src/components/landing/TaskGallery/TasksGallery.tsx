@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TasksGrid from './TasksGrid';
-import SuspenseWithErrorBoundary from '../../SuspenseWithErrorBoundary';
+import SuspenseWithErrorBoundary from '../../shared/SuspenseWithErrorBoundary';
 
 const Container = styled.div`
     display: flex;

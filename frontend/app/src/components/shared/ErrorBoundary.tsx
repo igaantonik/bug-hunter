@@ -1,7 +1,6 @@
 import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
 import { BiError } from 'react-icons/bi';
 import styled from 'styled-components';
-// import PageContainer from './PageContainer';
 
 const ErrorMessageContainer = styled.div`
     flex: 1;
@@ -48,7 +47,6 @@ class ErrorBoundary extends Component<Props, State> {
     };
 
     public static getDerivedStateFromError(_: Error): State {
-        // Update state so the next render will show the fallback UI.
         return { hasError: true };
     }
 

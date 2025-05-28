@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '../../../query/axiosInstance';
 import { Smell, SmellWithColor } from '../../../types';
-import { generatePastelRGBColor } from '../../../util/generatePastelRGBColor';
+import { SMELLS_COLORS } from '../../../data/consts';
 
 export const SMELLS_QUERY_KEY = 'smells';
 
@@ -12,9 +12,9 @@ export const useSmellsQuery = () =>
             axiosInstance
                 .get<{ smells: Smell[] }>('/smells/')
                 .then((response) =>
-                    response.data?.smells.map((smell) => ({
+                    response.data?.smells.map((smell, i) => ({
                         ...smell,
-                        color: generatePastelRGBColor(),
+                        color: SMELLS_COLORS[i],
                     }))
                 ),
     });
