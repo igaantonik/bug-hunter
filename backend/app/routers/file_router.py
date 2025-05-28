@@ -1,7 +1,7 @@
 import re
 from typing import List
 from bson import ObjectId
-from fastapi import APIRouter, Depends, UploadFile, Query, HTTPException, Path
+from fastapi import APIRouter, Depends, UploadFile, Query, HTTPException, Path, Form
 from app.models.file import FileModel, FileCollection
 from app.models.smell_record import SmellRecord
 from app.requests.file_create_request import FileCreateRequest
@@ -91,6 +91,21 @@ def parse_serialized_smells(input_str: str) -> List[SmellRecord]:
         smells.append({"lines": lines, "smell_id": smell_id_str})
 
     return smells
+
+
+@file_router.post("/bulk", response_model=FileCollection)
+async def get_files_in_bulk(
+    file_ids: List[str] = Form(..., description="List of file IDs to retrieve")
+):
+    """
+    Get multiple files by a list of file IDs.
+    - **file_ids**: List of MongoDB ObjectId strings
+    """
+    file_ids = file_ids[0].split(",")
+    object_ids = [ObjectId(fid) for fid in file_ids]
+    files = await files_collection.find({"_id": {"$in": object_ids}}).to_list(length=len(file_ids))
+
+    return FileCollection(files=files)
 
 
 @file_router.put("/{file_id}", response_model=FileModel)
