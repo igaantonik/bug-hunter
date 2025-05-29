@@ -70,4 +70,3 @@ async def delete_smell(smell_id: str):
     result = await smells_collection.delete_one({"_id": ObjectId(smell_id)})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Smell not found")
-

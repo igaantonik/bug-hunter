@@ -55,8 +55,7 @@ async def update_review(review_id: str, updated_review: Review = Body(...)):
     """
     updated_review.id = ObjectId(review_id)
     await reviews_collection.replace_one({"_id": ObjectId(review_id)}, updated_review.model_dump(by_alias=True))
-    updated = await reviews_collection.find_one({"_id": ObjectId(review_id)})
-    return updated
+    return await reviews_collection.find_one({"_id": ObjectId(review_id)})
 
 
 @review_router.delete("/{review_id}", status_code=204)

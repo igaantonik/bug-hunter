@@ -117,8 +117,7 @@ async def update_file(file_id: str, file_update: FileModel):
     """
     file_update.id = ObjectId(file_id)
     await files_collection.replace_one({"_id": ObjectId(file_id)}, file_update.model_dump(by_alias=True))
-    updated = await files_collection.find_one({"_id": ObjectId(file_id)})
-    return updated
+    return await files_collection.find_one({"_id": ObjectId(file_id)})
 
 
 @file_router.delete("/{file_id}", status_code=204)
