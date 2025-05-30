@@ -1,7 +1,7 @@
 import re
 from typing import List
-
-from fastapi import APIRouter, Depends, UploadFile, Query
+from bson import ObjectId
+from fastapi import APIRouter, Depends, UploadFile, Query, HTTPException, Path, Form
 from app.models.file import FileModel, FileCollection
 from app.models.smell_record import SmellRecord
 from app.requests.file_create_request import FileCreateRequest
@@ -23,6 +23,18 @@ async def get_files(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1)):
     """
     files = await files_collection.find().skip(skip).limit(limit).to_list(limit)
     return FileCollection(files=files)
+
+
+@file_router.get("/{file_id}", response_model=FileModel)
+async def get_file(file_id: str = Path(...)):
+    """
+    Get a single file by its ID.
+    - **file_id**: The ID of the file
+    """
+    file = await files_collection.find_one({"_id": ObjectId(file_id)})
+    if not file:
+        raise HTTPException(status_code=404, detail="File not found")
+    return file
 
 
 @file_router.post("/", response_model=FileModel)
@@ -79,3 +91,41 @@ def parse_serialized_smells(input_str: str) -> List[SmellRecord]:
         smells.append({"lines": lines, "smell_id": smell_id_str})
 
     return smells
+
+
+@file_router.post("/bulk", response_model=FileCollection)
+async def get_files_in_bulk(
+    file_ids: List[str] = Form(..., description="List of file IDs to retrieve")
+):
+    """
+    Get multiple files by a list of file IDs.
+    - **file_ids**: List of MongoDB ObjectId strings
+    """
+    file_ids = file_ids[0].split(",")
+    object_ids = [ObjectId(fid) for fid in file_ids]
+    files = await files_collection.find({"_id": {"$in": object_ids}}).to_list(length=len(file_ids))
+
+    return FileCollection(files=files)
+
+
+@file_router.put("/{file_id}", response_model=FileModel)
+async def update_file(file_id: str, file_update: FileModel):
+    """
+    Update a file record by ID.
+    - **file_id**: The ID of the file to update
+    - **file_update**: The new file data
+    """
+    file_update.id = ObjectId(file_id)
+    await files_collection.replace_one({"_id": ObjectId(file_id)}, file_update.model_dump(by_alias=True))
+    return await files_collection.find_one({"_id": ObjectId(file_id)})
+
+
+@file_router.delete("/{file_id}", status_code=204)
+async def delete_file(file_id: str):
+    """
+    Delete a file by ID.
+    - **file_id**: The ID of the file to delete
+    """
+    result = await files_collection.delete_one({"_id": ObjectId(file_id)})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="File not found")
