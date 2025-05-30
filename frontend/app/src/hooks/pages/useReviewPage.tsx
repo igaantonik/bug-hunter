@@ -15,6 +15,7 @@ interface UseReviewPageResult {
         selectedFileId?: string;
         onFilesListItemClick: (fileId?: string) => void;
     };
+    allowedTime: number;
 }
 
 export const useReviewPage = (): UseReviewPageResult => {
@@ -71,5 +72,6 @@ export const useReviewPage = (): UseReviewPageResult => {
             files: taskFiles ?? [],
             onFilesListItemClick: filesListItemClickHandler,
         },
+        allowedTime: currentTaskData?.allowed_time ?? 0,
     };
 };

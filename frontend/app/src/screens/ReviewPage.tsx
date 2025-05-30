@@ -13,12 +13,17 @@ const ReviewPageContent = styled.div`
 `;
 
 function ReviewPage() {
-    const { timerRef, fileSelectorProps, reviewSubmitHandler, selectedFile } =
-        useReviewPage();
+    const {
+        timerRef,
+        fileSelectorProps,
+        reviewSubmitHandler,
+        selectedFile,
+        allowedTime,
+    } = useReviewPage();
 
     return (
         <PageContainer>
-            <ReviewPageHeader timerRef={timerRef} allowedTime={10} />
+            <ReviewPageHeader timerRef={timerRef} allowedTime={allowedTime} />
             <ReviewPageContent>
                 <ReviewPageFileSelector {...fileSelectorProps} />
                 {selectedFile && <ReviewPageCodeEditor file={selectedFile} />}

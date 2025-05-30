@@ -1,6 +1,7 @@
 import React, { RefObject } from 'react';
 import styled from 'styled-components';
 import { useOnClickOutside } from 'usehooks-ts';
+import useReviewStore from '../../../store/useReviewStore';
 
 const Container = styled.div`
     position: absolute;
@@ -31,22 +32,19 @@ export interface CustomContextMenuItem {
 interface CustomContextMenuProps {
     ref: RefObject<HTMLDivElement | null>;
     items: CustomContextMenuItem[];
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function CustomContextMenu({
-    ref,
-    items,
-    isOpen,
-    setIsOpen,
-}: CustomContextMenuProps) {
+function CustomContextMenu({ ref, items }: CustomContextMenuProps) {
+    const { setCurrentSelection, isMenuOpen, setIsMenuOpen } = useReviewStore();
     useOnClickOutside(ref, () => {
-        setIsOpen(false);
+        if (isMenuOpen) {
+            setIsMenuOpen(false);
+            setCurrentSelection(null, null);
+        }
     });
 
     return (
-        <Container ref={ref} style={{ display: isOpen ? 'block' : 'none' }}>
+        <Container ref={ref} style={{ display: isMenuOpen ? 'block' : 'none' }}>
             {items.map((item) => (
                 <MenuItem
                     key={item.id}

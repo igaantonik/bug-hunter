@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import useReviewStore from '../../../store/useReviewStore';
 
 interface UseCodeEditorMouseEventsProps {
     onSelectionEnd?: (
@@ -19,7 +20,6 @@ export const useCodeEditorMouseEvents = (
 
     const handleMouseDown = () => {
         if (props?.disableMouseEvents) return;
-        console.log('MOUSE DOWN');
         if (hoveredLine !== null) {
             selectionEndLine.current = null;
             selectionStartLine.current = hoveredLine;
@@ -32,11 +32,6 @@ export const useCodeEditorMouseEvents = (
         if (selectionStartLine.current !== null) {
             selectionEndLine.current = hoveredLine;
             if (selectionEndLine.current !== null) {
-                console.log(
-                    'SELECTION:',
-                    selectionStartLine.current,
-                    selectionEndLine.current
-                );
                 props?.onSelectionEnd?.(
                     Math.min(
                         selectionStartLine.current,

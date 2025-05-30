@@ -1,12 +1,10 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { File } from '../../../types';
 import { CustomContextMenuItem } from '../../../components/review/ReviewPageCodeEditor/CustomContextMenu';
 import { useSmellsQuery } from '../../api/queries/useSmellsQuery';
-// import {
-//     LineSelectionActionKind,
-//     useLineSelectionReducer,
-// } from '../../reducers/codeEditorReducer';
 import { useCodeEditorMouseEvents } from './useCodeEditorMouseEvents';
+import useReviewStore from '../../../store/useReviewStore';
+import { range } from '../../../util/range';
 
 interface UseCodeEditorProps {
     file: File;
@@ -17,8 +15,6 @@ interface UseCodeEditorResult {
     contextMenuProps: {
         ref: React.RefObject<HTMLDivElement | null>;
         items: CustomContextMenuItem[];
-        isOpen: boolean;
-        setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     };
     plusButtonProps: {
         top: number | null;
@@ -35,21 +31,23 @@ interface UseCodeEditorResult {
 export const useCodeEditor = ({
     file,
 }: UseCodeEditorProps): UseCodeEditorResult => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const {
+        isMenuOpen,
+        setIsMenuOpen,
+        setCurrentSelection,
+        currentSelection,
+        setSelectedSmells,
+        removeSelectedSmells,
+    } = useReviewStore();
 
     const mouseProps = useCodeEditorMouseEvents({
         disableMouseEvents: isMenuOpen,
         onSelectionEnd: (s, e) => {
             handlePlusButtonClick();
-            alert(`SELECTION IS: ${s} ${e}`);
+            setCurrentSelection(s, e);
         },
     });
-    // const [hoveredLine, setHoveredLine] = useState<number | null>(null);
-    // const [buttonTop, setButtonTop] = useState<number | null>(null);
-    // const [selectedLine, setSelectedLine] = useState<number | null>(null);
-    // const [reviewedSmells, setReviewedSmells] = useState<ReviewedSmell[]>([]);
 
-    // const codeWrapperRef = useRef<HTMLDivElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
     const handlePlusButtonClick = () => {
@@ -63,39 +61,23 @@ export const useCodeEditor = ({
 
     const handleSmellSelection = useCallback(
         (smellId: string | undefined) => {
-            // if (selectedLine) {
-            // const existingSmell = reviewedSmells.find(
-            //     (smell) =>
-            //         smell.file_id === file._id &&
-            //         smell.line === selectedLine.toString()
-            // );
-            // if (existingSmell) {
-            // setReviewedSmells((prev) =>
-            //     prev.filter(
-            //         (smell) =>
-            //             smell.file_id !== file._id ||
-            //             smell.line !== selectedLine.toString()
-            //     )
-            // );
-            // }
-            if (smellId && file && file._id !== undefined) {
-                // setReviewedSmells((prev) => [
-                //     ...prev,
-                //     {
-                //         file_id: file._id ?? '',
-                //         line: selectedLine.toString(),
-                //         smell_id: smellId,
-                //     },
-                // ]);
+            if (
+                file &&
+                file._id !== undefined &&
+                currentSelection[0] &&
+                currentSelection[1]
+            ) {
+                const lines = range(currentSelection[0], currentSelection[1]);
+                if (smellId === undefined) {
+                    removeSelectedSmells(file._id, lines);
+                } else {
+                    setSelectedSmells(file._id, lines, smellId);
+                }
             }
             setIsMenuOpen(false);
-            // setSelectedLine(null);
-            // setHoveredLine(null);
-            // setButtonTop(null);
-            // }
+            setCurrentSelection(null, null);
         },
-        // [file, reviewedSmells, selectedLine]
-        [file]
+        [file, currentSelection[0], currentSelection[1]]
     );
 
     const { data: smells } = useSmellsQuery();
@@ -119,31 +101,11 @@ export const useCodeEditor = ({
         [smells, handleSmellSelection]
     );
 
-    // return {
-    //     handleMouseOverLine,
-    //     contextMenuProps: {
-    //         items: contextMenuItems,
-    //         ref: menuRef,
-    //         isOpen: isMenuOpen,
-    //         setIsOpen: setIsMenuOpen,
-    //     },
-    //     plusButtonProps: {
-    //         top: buttonTop,
-    //         onClick: handlePlusButtonClick,
-    //     },
-    //     codeWrapperProps: {
-    //         ref: codeWrapperRef,
-    //         onMouseLeave: handleMouseLeaveEditor,
-    //     },
-    // };
-
     return {
         handleMouseOverLine: mouseProps.handleMouseOverLine,
         contextMenuProps: {
             items: contextMenuItems,
             ref: menuRef,
-            isOpen: isMenuOpen,
-            setIsOpen: setIsMenuOpen,
         },
         plusButtonProps: {
             top: mouseProps.topOffset,

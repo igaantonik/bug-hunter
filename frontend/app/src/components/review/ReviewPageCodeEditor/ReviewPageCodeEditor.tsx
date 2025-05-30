@@ -77,6 +77,7 @@ function ReviewPageCodeEditor({ file }: ReviewPageCodeEditorProps) {
                 <CodeEditor
                     lines={file.lines}
                     handleMouseOverLine={handleMouseOverLine}
+                    fileId={file._id}
                 />
             </CodeWrapper>
         </Container>

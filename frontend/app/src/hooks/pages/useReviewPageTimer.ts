@@ -20,7 +20,7 @@ export const useReviewPageTimer = (
     }
 
     useEffect(() => {
-        if (isActive && !timerInterval) {
+        if (isActive && !timerInterval && initialTimeSeconds > 0) {
             const interval = setInterval(() => {
                 setSeconds((prev) => prev - 1);
             }, 1000);
