@@ -38,7 +38,7 @@ function CodeEditor({ lines, handleMouseOverLine, fileId }: CodeEditorProps) {
             }
             return '';
         },
-        [currentSelection, smells]
+        [currentSelection, smells, fileId]
     );
 
     return (
