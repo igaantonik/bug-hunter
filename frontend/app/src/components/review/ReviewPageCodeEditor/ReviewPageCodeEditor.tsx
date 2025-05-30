@@ -48,11 +48,32 @@ const PlusButton = styled.button<{ $top: number | null }>`
     }
 `;
 
+const Row = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+`;
+
+const Button = styled.button`
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    
+    &:hover {
+        background-color: #e0e0e0;
+    }
+`;
+
 interface ReviewPageCodeEditorProps {
     file: File;
+    reviewSubmitHandler: () => Promise<void>;
 }
 
-function ReviewPageCodeEditor({ file }: ReviewPageCodeEditorProps) {
+function ReviewPageCodeEditor({ file, reviewSubmitHandler }: ReviewPageCodeEditorProps) {
     const {
         contextMenuProps,
         handleMouseOverLine,
@@ -72,8 +93,16 @@ function ReviewPageCodeEditor({ file }: ReviewPageCodeEditorProps) {
                 </PlusButton>
 
                 <CustomContextMenu {...contextMenuProps} />
-                <CodeSmellsGallery />
-
+                <Row>
+                    <Button onClick={async () => {
+                        await reviewSubmitHandler();
+                    }}>
+                        Submit Review
+                    </Button>
+                      <CodeSmellsGallery /> 
+                </Row>
+             
+               
                 <CodeEditor
                     lines={file.lines}
                     handleMouseOverLine={handleMouseOverLine}
