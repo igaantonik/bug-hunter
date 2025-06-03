@@ -62,7 +62,7 @@ const Button = styled.button`
     border-radius: 5px;
     cursor: pointer;
     font-size: 20px;
-    
+
     &:hover {
         background-color: #e0e0e0;
     }
@@ -73,7 +73,10 @@ interface ReviewPageCodeEditorProps {
     reviewSubmitHandler: () => Promise<void>;
 }
 
-function ReviewPageCodeEditor({ file, reviewSubmitHandler }: ReviewPageCodeEditorProps) {
+function ReviewPageCodeEditor({
+    file,
+    reviewSubmitHandler,
+}: ReviewPageCodeEditorProps) {
     const {
         contextMenuProps,
         handleMouseOverLine,
@@ -94,15 +97,16 @@ function ReviewPageCodeEditor({ file, reviewSubmitHandler }: ReviewPageCodeEdito
 
                 <CustomContextMenu {...contextMenuProps} />
                 <Row>
-                    <Button onClick={async () => {
-                        await reviewSubmitHandler();
-                    }}>
+                    <Button
+                        onClick={async () => {
+                            await reviewSubmitHandler();
+                        }}
+                    >
                         Submit Review
                     </Button>
-                      <CodeSmellsGallery /> 
+                    <CodeSmellsGallery />
                 </Row>
-             
-               
+
                 <CodeEditor
                     lines={file.lines}
                     handleMouseOverLine={handleMouseOverLine}

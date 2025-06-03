@@ -2,10 +2,9 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { useTasksQuery } from '../api/queries/useTasksQuery';
 import useURLQuery from '../useURLQuery';
 import { useCreateReviewMutation } from '../api/mutations/useCreateReviewMutation';
-import { File } from '../../types';
+import { File, SmellRecord } from '../../types';
 import { useFilesQuery } from '../api/queries/useFilesQuery';
 import useReviewStore from '../../store/useReviewStore.ts';
-import { SmellRecord } from '../../types.ts';
 import useUserStore from '../../store/useUserStore.ts';
 
 interface UseReviewPageResult {
@@ -61,12 +60,14 @@ export const useReviewPage = (): UseReviewPageResult => {
         const feedback = await createNewReview({
             reviewed_smells: reviewdSmells,
             task_id: taskId ?? '',
-            username,
+            username: username ?? '',
             // TODO: Use real time that review took
-            time: 120
+            time: currentTaskData?.allowed_time
+                ? currentTaskData.allowed_time - timerRef.current
+                : 0,
         });
         console.log(feedback);
-        alert("Feedback: " + JSON.stringify(feedback, null, 2));
+        alert(`Feedback: ${JSON.stringify(feedback, null, 2)}`);
     };
 
     const filesListItemClickHandler = (fileId?: string) => {
@@ -86,8 +87,13 @@ export const useReviewPage = (): UseReviewPageResult => {
     };
 };
 
-const selectedSmellsToSmellRecords = (selectedSmells: Record<string, Record<string, string>>): SmellRecord[] => {
-    const smellsIdsToLinesPerFile: Record<string, Record<string, number[]>> = {};
+const selectedSmellsToSmellRecords = (
+    selectedSmells: Record<string, Record<string, string>>
+): SmellRecord[] => {
+    const smellsIdsToLinesPerFile: Record<
+        string,
+        Record<string, number[]>
+    > = {};
 
     for (const fileId in selectedSmells) {
         const fileSmells = selectedSmells[fileId];

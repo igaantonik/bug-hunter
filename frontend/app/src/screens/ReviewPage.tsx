@@ -26,7 +26,12 @@ function ReviewPage() {
             <ReviewPageHeader timerRef={timerRef} allowedTime={allowedTime} />
             <ReviewPageContent>
                 <ReviewPageFileSelector {...fileSelectorProps} />
-                {selectedFile && <ReviewPageCodeEditor file={selectedFile} reviewSubmitHandler={reviewSubmitHandler} />}
+                {selectedFile && (
+                    <ReviewPageCodeEditor
+                        file={selectedFile}
+                        reviewSubmitHandler={reviewSubmitHandler}
+                    />
+                )}
             </ReviewPageContent>
         </PageContainer>
     );
