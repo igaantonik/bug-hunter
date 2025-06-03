@@ -16,10 +16,6 @@ interface UseCodeEditorResult {
         ref: React.RefObject<HTMLDivElement | null>;
         items: CustomContextMenuItem[];
     };
-    plusButtonProps: {
-        top: number | null;
-        onClick: () => void;
-    };
     codeWrapperProps: {
         ref: React.RefObject<HTMLDivElement | null>;
         onMouseLeave: () => void;
@@ -40,24 +36,20 @@ export const useCodeEditor = ({
         removeSelectedSmells,
     } = useReviewStore();
 
-    const mouseProps = useCodeEditorMouseEvents({
-        disableMouseEvents: isMenuOpen,
-        onSelectionEnd: (s, e) => {
-            handlePlusButtonClick();
-            setCurrentSelection(s, e);
-        },
-    });
-
     const menuRef = useRef<HTMLDivElement>(null);
 
-    const handlePlusButtonClick = () => {
-        if (mouseProps.topOffset !== null) {
-            if (!menuRef.current) return;
-            menuRef.current.style.top = `${mouseProps.topOffset + 30}px`;
-            menuRef.current.style.left = `${35}px`;
-            setIsMenuOpen(true);
-        }
+    const handleSelectionEnd = (s: number, e: number, topOffset: number) => {
+        if (!menuRef.current) return;
+        menuRef.current.style.top = `${topOffset + 30}px`;
+        menuRef.current.style.left = `${35}px`;
+        setIsMenuOpen(true);
+        setCurrentSelection(s, e);
     };
+
+    const mouseProps = useCodeEditorMouseEvents({
+        disableMouseEvents: isMenuOpen,
+        onSelectionEnd: handleSelectionEnd,
+    });
 
     const handleSmellSelection = useCallback(
         (smellId: string | undefined) => {
@@ -106,10 +98,6 @@ export const useCodeEditor = ({
         contextMenuProps: {
             items: contextMenuItems,
             ref: menuRef,
-        },
-        plusButtonProps: {
-            top: mouseProps.topOffset,
-            onClick: handlePlusButtonClick,
         },
         codeWrapperProps: {
             ref: mouseProps.codeWrapperRef,

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import useReviewStore from '../../../store/useReviewStore';
 
 interface UseCodeEditorMouseEventsProps {
     onSelectionEnd?: (
         selectionStartLine: number,
-        selectionEndLine: number
+        selectionEndLine: number,
+        topOffset: number
     ) => void;
     disableMouseEvents: boolean;
 }
@@ -40,7 +40,8 @@ export const useCodeEditorMouseEvents = (
                     Math.max(
                         selectionStartLine.current,
                         selectionEndLine.current
-                    )
+                    ),
+                    topOffset ?? 0
                 );
             }
         }
@@ -72,7 +73,6 @@ export const useCodeEditorMouseEvents = (
     }, [props?.disableMouseEvents]);
 
     return {
-        topOffset: topOffset,
         codeWrapperRef,
         handleMouseDown,
         handleMouseUp,
