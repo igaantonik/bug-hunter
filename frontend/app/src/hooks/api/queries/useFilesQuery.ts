@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axiosInstance from '../../../axiosInstance';
+import axiosInstance from '../../../query/axiosInstance';
 import { File } from '../../../types';
 
 export const FILES_QUERY_KEY = 'files';
