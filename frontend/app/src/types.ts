@@ -43,3 +43,19 @@ export interface Feedback {
     score: number;
     max_score: number;
 }
+
+export interface PredefinedSmell {
+    id: string;
+    lines: number[];
+}
+
+export interface UploadFile {
+    file_content: string; // Base64 encoded content
+    predefined_smells?: string[];
+}
+
+export interface EditFile {
+    name: string;
+    lines: Record<string, string>;
+    smell_records: { lines: number[]; smell_id: string }[];
+}
