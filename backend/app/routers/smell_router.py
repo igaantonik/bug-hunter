@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body, Query, HTTPException
 from app.models.smell import Smell, SmellsCollection
-from app.database import db
+from app.database import smells_collection
 from bson import ObjectId
 
 smell_router = APIRouter(
@@ -8,8 +8,6 @@ smell_router = APIRouter(
     tags=["smells"],
     responses={404: {"description": "Not found"}},
 )
-
-smells_collection = db.smells
 
 
 @smell_router.get("/", response_model=SmellsCollection, status_code=200)
@@ -57,7 +55,9 @@ async def update_smell(smell_id: str, updated_smell: Smell):
     - **updated_smell**: The new smell data
     """
     updated_smell.id = ObjectId(smell_id)
-    await smells_collection.replace_one({"_id": ObjectId(smell_id)}, updated_smell.model_dump(by_alias=True))
+    await smells_collection.replace_one(
+        {"_id": ObjectId(smell_id)}, updated_smell.model_dump(by_alias=True)
+    )
     return await smells_collection.find_one({"_id": ObjectId(smell_id)})
 
 
