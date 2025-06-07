@@ -37,9 +37,23 @@ export interface Review {
     time: number;
 }
 
+enum MistakeType {
+    NOT_SELECTED = 'not_selected',
+    BADLY_SELECTED = 'badly_selected',
+}
+
+export interface ReviewMistake {
+    mistake_type: MistakeType;
+    line: number;
+    file_id: string;
+    review_id: string;
+    correct_smell_id: string;
+}
+
 export interface Feedback {
     id?: string;
     review_id: string;
     score: number;
     max_score: number;
+    mistakes?: ReviewMistake[];
 }
