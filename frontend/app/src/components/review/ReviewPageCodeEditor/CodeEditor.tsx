@@ -17,11 +17,10 @@ const Container = styled.div`
     }
 
     width: 0px;
-    position: relative; 
+    position: relative;
 `;
 
-const CodeWrapper = styled.div`
-`;
+const CodeWrapper = styled.div``;
 
 const CodeEditorHeader = styled.div`
     display: flex;
@@ -30,6 +29,10 @@ const CodeEditorHeader = styled.div`
     justify-content: space-between;
     margin: 10px 0;
 `;
+
+function MyComponent() {
+    return <p>Test</p>;
+}
 
 export interface CodeEditorProps {
     file: File;
@@ -70,6 +73,7 @@ function CodeEditor({
                         padding: '20px 10px',
                     }}
                     wrapLines
+                    wrapLongLines
                     lineProps={(lineNumber) => ({
                         style: {
                             display: 'block',
@@ -79,7 +83,6 @@ function CodeEditor({
                             userSelect: 'none',
                             backgroundColor:
                                 getLineBackgroundColor?.(lineNumber),
-                            textWrap: 'wrap',
                         },
                         onMouseOver: (event) =>
                             onMouseOverLine?.(event, lineNumber),
