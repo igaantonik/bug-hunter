@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import styled from 'styled-components';
 import { formatTime } from '../../util/formatTime';
-import { useReviewPageTimer } from '../../hooks/pages/useReviewPageTimer';
+import { useReviewPageTimer } from '../../hooks/pages/review/useReviewPageTimer';
 
 const Header = styled.header`
     display: flex;
@@ -29,18 +29,23 @@ const Header = styled.header`
 
 const TimerContainer = styled.div``;
 
-interface ReviewPageHeaderProps {
+export interface ReviewPageHeaderProps {
+    taskName: string;
     timerRef: RefObject<number>;
     allowedTime: number | null;
 }
 
-function ReviewPageHeader({ timerRef, allowedTime }: ReviewPageHeaderProps) {
+function ReviewPageHeader({
+    taskName,
+    timerRef,
+    allowedTime,
+}: ReviewPageHeaderProps) {
     const { currentTimeSeconds } = useReviewPageTimer(allowedTime ?? 0);
 
     if (timerRef) timerRef.current = currentTimeSeconds;
     return (
         <Header>
-            <h3>Task: Basic Python Functions</h3>
+            <h3>Task: {taskName}</h3>
             {allowedTime !== null && (
                 <TimerContainer>
                     {formatTime(currentTimeSeconds)}

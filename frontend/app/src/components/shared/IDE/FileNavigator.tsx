@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { File } from '../../types';
+import { File } from '../../../types';
 
 const Container = styled.div`
-    flex: 1;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -22,7 +21,7 @@ const FilesList = styled.ul`
 
 const FilesListItem = styled.li<{ $isSelected: boolean }>`
     background-color: ${({ $isSelected }) =>
-        $isSelected ? '#dbeafe' : 'none'};
+        $isSelected ? '#dbeafe' : '#f3f3f3'};
     color: ${({ $isSelected }) => ($isSelected ? '#2563EB' : '#000')};
     padding: 10px;
     margin: 10px 0px;
@@ -35,17 +34,31 @@ const FilesListItem = styled.li<{ $isSelected: boolean }>`
     }
 `;
 
-interface ReviewPageFileSelectorProps {
+interface FileNavigatorProps {
     files: File[];
     selectedFileId?: string;
-    onFilesListItemClick: (fileId?: string) => void;
+    setSelectedFileId: React.Dispatch<React.SetStateAction<string | undefined>>;
+    onFilesListItemClick?: (fileId?: string) => void;
 }
 
-function ReviewPageFileSelector({
+function FileNavigator({
     files,
     selectedFileId,
+    setSelectedFileId,
     onFilesListItemClick,
-}: ReviewPageFileSelectorProps) {
+}: FileNavigatorProps) {
+    const filesListItemClickHandler = (fileId?: string) => {
+        setSelectedFileId(fileId);
+        onFilesListItemClick?.(fileId);
+    };
+
+    useEffect(() => {
+        if (files && files[0] && files[0]._id && selectedFileId === undefined) {
+            setSelectedFileId(files[0]._id);
+            onFilesListItemClick?.(files[0]._id);
+        }
+    }, [files, selectedFileId, setSelectedFileId, onFilesListItemClick]);
+
     return (
         <Container>
             <h3>Files</h3>
@@ -54,7 +67,7 @@ function ReviewPageFileSelector({
                     <FilesListItem
                         key={file._id}
                         $isSelected={selectedFileId === file._id}
-                        onClick={() => onFilesListItemClick(file._id)}
+                        onClick={() => filesListItemClickHandler(file._id)}
                     >
                         {file.name}
                     </FilesListItem>
@@ -64,4 +77,4 @@ function ReviewPageFileSelector({
     );
 }
 
-export default ReviewPageFileSelector;
+export default FileNavigator;

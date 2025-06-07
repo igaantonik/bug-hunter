@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { SmellRecord } from '../types';
 
 interface ReviewStore {
     isMenuOpen: boolean;

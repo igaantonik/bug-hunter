@@ -6,6 +6,7 @@ import ReviewPage from './screens/ReviewPage';
 import './App.css';
 import NotFoundPage from './screens/NotFoundPage';
 import useUserStore from './store/useUserStore';
+import FeedbackPage from './screens/FeedbackPage';
 
 function App() {
     const { isOnboarded } = useUserStore();
@@ -16,6 +17,7 @@ function App() {
                 <>
                     <Route path="" element={<LandingPage />} />
                     <Route path="review" element={<ReviewPage />} />
+                    <Route path="feedback" element={<FeedbackPage />} />
                 </>
             ) : (
                 <Route path="" element={<OnboardingPage />} />
