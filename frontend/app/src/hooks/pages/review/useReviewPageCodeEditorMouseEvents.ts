@@ -6,6 +6,10 @@ interface UseReviewPageCodeEditorMouseEventsProps {
         selectionEndLine: number,
         topOffset: number
     ) => void;
+    onSelectionMouseOver?: (
+        selectionStartLine: number,
+        selectionEndLine: number
+    ) => void;
     disableMouseEvents: boolean;
 }
 
@@ -24,6 +28,11 @@ export const useReviewPageCodeEditorMouseEvents = (
             selectionEndLine.current = null;
             selectionStartLine.current = hoveredLine;
         }
+        if (props?.onSelectionMouseOver && selectionStartLine.current)
+            props.onSelectionMouseOver(
+                selectionStartLine.current,
+                selectionStartLine.current
+            );
     };
 
     const handleMouseUp = () => {
@@ -58,6 +67,16 @@ export const useReviewPageCodeEditorMouseEvents = (
             const offset = lineElement.offsetTop;
             setHoveredLine(lineNumber);
             setTopOffset(offset);
+        }
+
+        if (
+            props?.onSelectionMouseOver &&
+            selectionStartLine.current !== null
+        ) {
+            props.onSelectionMouseOver(
+                Math.min(selectionStartLine.current, lineNumber),
+                Math.max(selectionStartLine.current, lineNumber)
+            );
         }
     };
 
