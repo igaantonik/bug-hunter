@@ -17,10 +17,10 @@ const Container = styled.div`
     }
 
     width: 0px;
+    position: relative; 
 `;
 
 const CodeWrapper = styled.div`
-    position: relative; /* Potrzebne do pozycjonowania przycisku */
 `;
 
 const CodeEditorHeader = styled.div`
@@ -53,11 +53,11 @@ function CodeEditor({
     return (
         <Container>
             <h3>{file.name}</h3>
+            <CodeEditorHeader>
+                {headerComponent}
+                <CodeSmellsGallery />
+            </CodeEditorHeader>
             <CodeWrapper {...codeWrapperProps}>
-                <CodeEditorHeader>
-                    {headerComponent}
-                    <CodeSmellsGallery />
-                </CodeEditorHeader>
                 <SyntaxHighlighter
                     showLineNumbers
                     language="javascript"
