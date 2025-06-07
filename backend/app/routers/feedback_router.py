@@ -2,19 +2,16 @@ from http.client import HTTPException
 
 from fastapi import APIRouter, Query
 from app.models.feedback import FeedbacksCollection, Feedback
-from app.database import db
+from app.database import feedbacks_collection
 from bson import ObjectId
+
+from app.routers.utils import get_feedback_mistakes
 
 feedback_router = APIRouter(
     prefix="/feedbacks",
     tags=["feedbacks"],
     responses={404: {"description": "Not found"}},
 )
-
-feedbacks_collection = db.feedbacks
-reviews_collection = db.reviews
-tasks_collection = db.tasks
-files_collection = db.files
 
 
 @feedback_router.get("/", response_model=FeedbacksCollection, status_code=200)
@@ -35,6 +32,8 @@ async def get_feedback(feedback_id: str):
     - **feedback_id**: The ID of the feedback
     """
     feedback = await feedbacks_collection.find_one({"_id": ObjectId(feedback_id)})
+    feedback = Feedback(**feedback)
+    feedback.mistakes = await get_feedback_mistakes(feedback.id)
     if not feedback:
         raise HTTPException(status_code=404, detail="Feedback not found")
     return feedback
@@ -48,7 +47,9 @@ async def update_feedback(feedback_id: str, updated_feedback: Feedback):
     - **updated_feedback**: The new feedback data
     """
     updated_feedback.id = ObjectId(feedback_id)
-    await feedbacks_collection.replace_one({"_id": ObjectId(feedback_id)}, updated_feedback.model_dump(by_alias=True))
+    await feedbacks_collection.replace_one(
+        {"_id": ObjectId(feedback_id)}, updated_feedback.model_dump(by_alias=True)
+    )
     return await feedbacks_collection.find_one({"_id": ObjectId(feedback_id)})
 
 
