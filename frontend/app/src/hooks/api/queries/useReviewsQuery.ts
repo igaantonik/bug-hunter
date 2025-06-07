@@ -9,6 +9,6 @@ export const useReviewsQuery = () =>
         queryKey: [REVIEWS_QUERY_KEY],
         queryFn: async () =>
             axiosInstance
-                .get<{ reviews: Review[] }>('/reviews/')
+                .get<{ reviews: Review[] }>('/reviews?limit=100')
                 .then((response) => response.data?.reviews),
     });

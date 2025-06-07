@@ -2,37 +2,61 @@ import React from 'react';
 import styled from 'styled-components';
 import PageContainer from '../components/shared/PageContainer';
 import ReviewPageHeader from '../components/review/ReviewPageHeader';
-import ReviewPageFileSelector from '../components/review/ReviewPageFileSelector';
-import ReviewPageCodeEditor from '../components/review/ReviewPageCodeEditor/ReviewPageCodeEditor';
-import { useReviewPage } from '../hooks/pages/useReviewPage';
+import { useReviewPage } from '../hooks/pages/review/useReviewPage';
+import IDE from '../components/shared/IDE/IDE';
+import CustomContextMenu from '../components/review/ReviewPageCodeEditor/CustomContextMenu';
+import { useReviewPageCodeEditor } from '../hooks/pages/review/useReviewPageCodeEditor';
 
-const ReviewPageContent = styled.div`
-    display: flex;
-    flex: 1;
-    gap: 10px;
+const Button = styled.button`
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
 `;
 
 function ReviewPage() {
     const {
-        timerRef,
-        fileSelectorProps,
+        files,
+        reviewPageHeaderProps,
         reviewSubmitHandler,
-        selectedFile,
-        allowedTime,
+        selectedFileId,
+        setSelectedFileId,
+        getLineBackgroundColor,
     } = useReviewPage();
+
+    const { contextMenuProps, handleMouseOverLine, codeWrapperProps } =
+        useReviewPageCodeEditor({ fileId: selectedFileId });
 
     return (
         <PageContainer>
-            <ReviewPageHeader timerRef={timerRef} allowedTime={allowedTime} />
-            <ReviewPageContent>
-                <ReviewPageFileSelector {...fileSelectorProps} />
-                {selectedFile && (
-                    <ReviewPageCodeEditor
-                        file={selectedFile}
-                        reviewSubmitHandler={reviewSubmitHandler}
-                    />
-                )}
-            </ReviewPageContent>
+            <ReviewPageHeader {...reviewPageHeaderProps} />
+            <IDE
+                files={files ?? []}
+                onFileSelectionChange={setSelectedFileId}
+                codeEditorProps={{
+                    getLineBackgroundColor,
+                    onMouseOverLine: handleMouseOverLine,
+                    ...codeWrapperProps,
+                    headerComponent: (
+                        <>
+                            <CustomContextMenu {...contextMenuProps} />
+
+                            <Button
+                                onClick={async () => {
+                                    await reviewSubmitHandler();
+                                }}
+                            >
+                                Submit Review
+                            </Button>
+                        </>
+                    ),
+                }}
+            />
         </PageContainer>
     );
 }

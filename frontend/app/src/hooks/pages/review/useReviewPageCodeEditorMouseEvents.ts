@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-interface UseCodeEditorMouseEventsProps {
+interface UseReviewPageCodeEditorMouseEventsProps {
     onSelectionEnd?: (
         selectionStartLine: number,
         selectionEndLine: number,
@@ -9,8 +9,8 @@ interface UseCodeEditorMouseEventsProps {
     disableMouseEvents: boolean;
 }
 
-export const useCodeEditorMouseEvents = (
-    props?: UseCodeEditorMouseEventsProps
+export const useReviewPageCodeEditorMouseEvents = (
+    props?: UseReviewPageCodeEditorMouseEventsProps
 ) => {
     const codeWrapperRef = useRef<HTMLDivElement>(null);
     const [hoveredLine, setHoveredLine] = useState<number | null>(null);

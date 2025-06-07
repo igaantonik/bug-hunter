@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Review } from '../../../types';
+import { Feedback, Review } from '../../../types';
 import axiosInstance from '../../../query/axiosInstance';
 import { REVIEWS_QUERY_KEY } from '../queries/useReviewsQuery';
 
 export const useCreateReviewMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async (updateData: Review): Promise<Review> => {
-            const response = await axiosInstance.post<Review>(
+        mutationFn: async (updateData: Review): Promise<Feedback> => {
+            const response = await axiosInstance.post<Feedback>(
                 '/reviews/',
                 updateData
             );

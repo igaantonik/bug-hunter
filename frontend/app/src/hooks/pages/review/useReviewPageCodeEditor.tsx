@@ -1,16 +1,15 @@
 import { useCallback, useMemo, useRef } from 'react';
-import { File } from '../../../types';
 import { CustomContextMenuItem } from '../../../components/review/ReviewPageCodeEditor/CustomContextMenu';
 import { useSmellsQuery } from '../../api/queries/useSmellsQuery';
-import { useCodeEditorMouseEvents } from './useCodeEditorMouseEvents';
+import { useReviewPageCodeEditorMouseEvents } from './useReviewPageCodeEditorMouseEvents';
 import useReviewStore from '../../../store/useReviewStore';
 import { range } from '../../../util/range';
 
-interface UseCodeEditorProps {
-    file: File;
+interface UseReviewPageCodeEditorProps {
+    fileId: string | undefined;
 }
 
-interface UseCodeEditorResult {
+interface UseReviewPageCodeEditorResult {
     handleMouseOverLine: (event: React.MouseEvent, lineNumber: number) => void;
     contextMenuProps: {
         ref: React.RefObject<HTMLDivElement | null>;
@@ -24,9 +23,9 @@ interface UseCodeEditorResult {
     };
 }
 
-export const useCodeEditor = ({
-    file,
-}: UseCodeEditorProps): UseCodeEditorResult => {
+export const useReviewPageCodeEditor = ({
+    fileId,
+}: UseReviewPageCodeEditorProps): UseReviewPageCodeEditorResult => {
     const {
         isMenuOpen,
         setIsMenuOpen,
@@ -46,7 +45,7 @@ export const useCodeEditor = ({
         setCurrentSelection(s, e);
     };
 
-    const mouseProps = useCodeEditorMouseEvents({
+    const mouseProps = useReviewPageCodeEditorMouseEvents({
         disableMouseEvents: isMenuOpen,
         onSelectionEnd: handleSelectionEnd,
     });
@@ -54,22 +53,21 @@ export const useCodeEditor = ({
     const handleSmellSelection = useCallback(
         (smellId: string | undefined) => {
             if (
-                file &&
-                file._id !== undefined &&
+                fileId !== undefined &&
                 currentSelection[0] &&
                 currentSelection[1]
             ) {
                 const lines = range(currentSelection[0], currentSelection[1]);
                 if (smellId === undefined) {
-                    removeSelectedSmells(file._id, lines);
+                    removeSelectedSmells(fileId, lines);
                 } else {
-                    setSelectedSmells(file._id, lines, smellId);
+                    setSelectedSmells(fileId, lines, smellId);
                 }
             }
             setIsMenuOpen(false);
             setCurrentSelection(null, null);
         },
-        [file, currentSelection[0], currentSelection[1]]
+        [fileId, currentSelection[0], currentSelection[1]]
     );
 
     const { data: smells } = useSmellsQuery();

@@ -12,7 +12,7 @@ const FallbackContainer = styled.div`
     padding: 20px;
 `;
 
-const SuspenseWithErrorBoundary = ({ children }: PropsWithChildren) => {
+function SuspenseWithErrorBoundary({ children }: PropsWithChildren) {
     return (
         <ErrorBoundary>
             <React.Suspense
@@ -26,6 +26,6 @@ const SuspenseWithErrorBoundary = ({ children }: PropsWithChildren) => {
             </React.Suspense>
         </ErrorBoundary>
     );
-};
+}
 
 export default SuspenseWithErrorBoundary;
