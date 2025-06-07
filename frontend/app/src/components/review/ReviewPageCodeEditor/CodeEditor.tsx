@@ -6,7 +6,6 @@ import { File } from '../../../types';
 import CodeSmellsGallery from './CodeSmellsGallery';
 
 const Container = styled.div`
-    background-color: green;
     flex: 4;
     padding: 20px;
     background-color: #fff;
@@ -16,6 +15,8 @@ const Container = styled.div`
         font-size: 35px;
         margin: 0;
     }
+
+    width: 0px;
 `;
 
 const CodeWrapper = styled.div`
@@ -78,6 +79,7 @@ function CodeEditor({
                             userSelect: 'none',
                             backgroundColor:
                                 getLineBackgroundColor?.(lineNumber),
+                            textWrap: 'wrap',
                         },
                         onMouseOver: (event) =>
                             onMouseOverLine?.(event, lineNumber),
