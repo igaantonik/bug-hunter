@@ -29,6 +29,8 @@ const Header = styled.header`
 
 const TimerContainer = styled.div``;
 
+const TimerContainer = styled.div``;
+
 export interface ReviewPageHeaderProps {
     taskName: string;
     timerRef: RefObject<number>;
