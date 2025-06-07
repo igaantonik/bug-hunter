@@ -45,9 +45,14 @@ export const useReviewPageCodeEditor = ({
         setCurrentSelection(s, e);
     };
 
+    const handleSelectionMouseOver = (s: number, e: number) => {
+        setCurrentSelection(s, e);
+    };
+
     const mouseProps = useReviewPageCodeEditorMouseEvents({
         disableMouseEvents: isMenuOpen,
         onSelectionEnd: handleSelectionEnd,
+        onSelectionMouseOver: handleSelectionMouseOver
     });
 
     const handleSmellSelection = useCallback(

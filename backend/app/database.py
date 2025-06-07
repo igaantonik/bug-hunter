@@ -12,3 +12,9 @@ def get_mongodb_client():
 
 
 db = get_mongodb_client()
+
+reviews_collection = db.reviews
+tasks_collection = db.tasks
+files_collection = db.files
+feedbacks_collection = db.feedbacks
+smells_collection = db.smells

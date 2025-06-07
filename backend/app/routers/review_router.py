@@ -5,19 +5,21 @@ from app.models.feedback import Feedback
 from fastapi import APIRouter, Body, Query, HTTPException
 from bson import ObjectId
 from app.models.review import Review, ReviewsCollection
-from app.database import db
+from app.database import (
+    db,
+    reviews_collection,
+    tasks_collection,
+    feedbacks_collection,
+    files_collection,
+)
 from app.models.task import Task
+from app.routers.utils import get_feedback_mistakes
 
 review_router = APIRouter(
     prefix="/reviews",
     tags=["reviews"],
     responses={404: {"description": "Not found"}},
 )
-
-reviews_collection = db.reviews
-feedbacks_collection = db.feedbacks
-tasks_collection = db.tasks
-files_collection = db.files
 
 
 @review_router.get("/", response_model=ReviewsCollection, status_code=200)
@@ -67,11 +69,13 @@ async def _create_feedback(review: Review) -> Feedback:
     score, max_score = await _calculate_score(task, review)
     feedback = Feedback(review_id=review.id, score=score, max_score=max_score)
     new_feedback = await feedbacks_collection.insert_one(
-        feedback.model_dump(by_alias=True, exclude={"id"})
+        feedback.model_dump(by_alias=True, exclude={"id", "review_mistakes"})
     )
     created_feedback = await feedbacks_collection.find_one(
         {"_id": new_feedback.inserted_id}
     )
+    created_feedback = Feedback(**created_feedback)
+    created_feedback.mistakes = await get_feedback_mistakes(feedback.id)
     return created_feedback
 
 
@@ -130,7 +134,9 @@ async def update_review(review_id: str, updated_review: Review = Body(...)):
     - **review_id**: The ID of the review
     """
     updated_review.id = ObjectId(review_id)
-    await reviews_collection.replace_one({"_id": ObjectId(review_id)}, updated_review.model_dump(by_alias=True))
+    await reviews_collection.replace_one(
+        {"_id": ObjectId(review_id)}, updated_review.model_dump(by_alias=True)
+    )
     return await reviews_collection.find_one({"_id": ObjectId(review_id)})
 
 

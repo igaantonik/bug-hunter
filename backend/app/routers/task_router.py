@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query, Depends, HTTPException
 from bson import ObjectId
 from app.models.task import Task, TasksCollection
-from app.database import db
+from app.database import tasks_collection
 from app.requests.task_create_request import TaskCreateRequest
 
 task_router = APIRouter(
@@ -9,8 +9,6 @@ task_router = APIRouter(
     tags=["tasks"],
     responses={404: {"description": "Not found"}},
 )
-
-tasks_collection = db.tasks
 
 
 @task_router.get("/", response_model=TasksCollection, status_code=200)
@@ -38,7 +36,7 @@ async def get_task(task_id: str):
 
 @task_router.post("/", response_model=Task, status_code=201)
 async def create_task(
-        req: TaskCreateRequest = Depends(),
+    req: TaskCreateRequest = Depends(),
 ):
     """
     Create a new task.
@@ -68,7 +66,9 @@ async def update_task(task_id: str, updated_task: Task):
     - **updated_task**: The new task data
     """
     updated_task.id = ObjectId(task_id)
-    await tasks_collection.replace_one({"_id": ObjectId(task_id)}, updated_task.model_dump(by_alias=True))
+    await tasks_collection.replace_one(
+        {"_id": ObjectId(task_id)}, updated_task.model_dump(by_alias=True)
+    )
     return await tasks_collection.find_one({"_id": ObjectId(task_id)})
 
 

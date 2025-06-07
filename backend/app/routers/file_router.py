@@ -5,13 +5,11 @@ from fastapi import APIRouter, Depends, UploadFile, Query, HTTPException, Path, 
 from app.models.file import FileModel, FileCollection
 from app.models.smell_record import SmellRecord
 from app.requests.file_create_request import FileCreateRequest
-from app.database import db
+from app.database import files_collection
 
 file_router = APIRouter(
     prefix="/files", tags=["files"], responses={404: {"description": "Not found"}}
 )
-
-files_collection = db.files
 
 
 @file_router.get("/", response_model=FileCollection, status_code=200)
@@ -95,7 +93,7 @@ def parse_serialized_smells(input_str: str) -> List[SmellRecord]:
 
 @file_router.post("/bulk", response_model=FileCollection)
 async def get_files_in_bulk(
-    file_ids: List[str] = Form(..., description="List of file IDs to retrieve")
+    file_ids: List[str] = Form(..., description="List of file IDs to retrieve"),
 ):
     """
     Get multiple files by a list of file IDs.
@@ -103,7 +101,9 @@ async def get_files_in_bulk(
     """
     file_ids = file_ids[0].split(",")
     object_ids = [ObjectId(fid) for fid in file_ids]
-    files = await files_collection.find({"_id": {"$in": object_ids}}).to_list(length=len(file_ids))
+    files = await files_collection.find({"_id": {"$in": object_ids}}).to_list(
+        length=len(file_ids)
+    )
 
     return FileCollection(files=files)
 
@@ -116,7 +116,9 @@ async def update_file(file_id: str, file_update: FileModel):
     - **file_update**: The new file data
     """
     file_update.id = ObjectId(file_id)
-    await files_collection.replace_one({"_id": ObjectId(file_id)}, file_update.model_dump(by_alias=True))
+    await files_collection.replace_one(
+        {"_id": ObjectId(file_id)}, file_update.model_dump(by_alias=True)
+    )
     return await files_collection.find_one({"_id": ObjectId(file_id)})
 
 
