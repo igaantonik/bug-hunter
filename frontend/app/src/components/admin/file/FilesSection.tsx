@@ -105,7 +105,7 @@ function FilesSection() {
     return (
         <>
             <Button
-                variant="primary"
+                variant="add"
                 onClick={handleShowAddForm}
                 disabled={isSaving}
             >

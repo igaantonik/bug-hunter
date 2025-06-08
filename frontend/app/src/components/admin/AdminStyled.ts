@@ -54,6 +54,21 @@ export const FormGroup = styled.div`
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
     }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    h4 {
+        margin: 0;
+    }
+
+    textarea {
+        width: 98%;
+        padding: 10px;
+    }
 `;
 
 export const FormButtons = styled.div`
@@ -62,7 +77,7 @@ export const FormButtons = styled.div`
 `;
 
 export const Button = styled.button<{
-    variant?: 'primary' | 'secondary' | 'edit' | 'delete';
+    variant?: 'primary' | 'secondary' | 'edit' | 'delete' | 'add';
 }>`
     padding: 10px 20px;
     border: none;
@@ -79,6 +94,8 @@ export const Button = styled.button<{
             return `background: none; color: #007bff; padding: 0; margin: 0 10px; &:hover { color: #0056b3; }`;
         if (variant === 'delete')
             return `background: none; color: #dc3545; padding: 0; margin: 0 10px; &:hover { color: #b02a37; }`;
+        if (variant === 'add')
+            return `width: 100%; background-color: #007bff; color: white; &:hover { background-color: #0056b3; }`;
         return `background-color: #e9ecef; color: #333; &:hover { background-color: #ced4da; }`;
     }}
 
@@ -101,6 +118,11 @@ export const ListItem = styled.li`
     align-items: center;
     padding: 12px 8px;
     border-bottom: 1px solid #eee;
+
+    & > div > * {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
 
     &:last-child {
         border-bottom: none;
@@ -135,7 +157,7 @@ export const SmellRecordItem = styled.div`
     }
 `;
 
-export const SmellRecordFormWrapper = styled.div`
+export const FormWrapper = styled.div`
     padding: 15px;
     border: 1px dashed #ccc;
     margin-top: 15px;
@@ -146,5 +168,8 @@ export const SmellRecordFormWrapper = styled.div`
         margin-top: 0;
         font-size: 1.1em;
         color: #0056b3;
+    }
+    h2 {
+        margin-top: 0;
     }
 `;

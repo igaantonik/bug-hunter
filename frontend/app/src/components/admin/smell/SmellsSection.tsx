@@ -31,7 +31,7 @@ function SmellsSection() {
         setFormData(null);
     };
 
-    const handleFormDataChange = ( value: string) => {
+    const handleFormDataChange = (value: string) => {
         if (formData) {
             setFormData({ ...formData, name: value });
         }
@@ -85,13 +85,13 @@ function SmellsSection() {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShowAddForm}>
+            <Button variant="add" onClick={handleShowAddForm}>
                 Add New Smell
             </Button>
 
             <h4>Existing Smells:</h4>
             <SmellList
-                smells={smells || []} // Użyj smells || [] dla bezpieczeństwa
+                smells={smells || []}
                 onEdit={handleShowEditForm}
                 onDelete={handleDeleteSmell}
                 deletingSmellId={deleteSmellMutation.variables}

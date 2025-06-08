@@ -26,8 +26,9 @@ function TaskList({
             {tasks.map((task) => (
                 <ListItem key={task._id}>
                     <div>
-                        <strong>{task.name}</strong>
+                        <strong>Name: {task.name}</strong>
                         <p>
+                            Description:{' '}
                             {task.description.length > 100
                                 ? `${task.description.substring(0, 100)}...`
                                 : task.description}

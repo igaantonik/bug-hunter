@@ -7,7 +7,7 @@ import {
     FormGroup,
     FormButtons,
     SmellRecordItem,
-    SmellRecordFormWrapper,
+    FormWrapper,
 } from '../AdminStyled';
 
 interface BaseFileFormProps {
@@ -164,11 +164,11 @@ function FileForm(props: FileFormProps) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h3>
+            <h2>
                 {props.mode === 'add'
                     ? 'Add New File'
                     : `Edit File: ${props.initialFileData.name}`}
-            </h3>
+            </h2>
 
             {props.mode === 'add' && (
                 <FormGroup>
@@ -202,58 +202,60 @@ function FileForm(props: FileFormProps) {
                 </FormGroup>
             )}
 
-            <SmellRecordFormWrapper>
-                <h4>{entryTitle}</h4>
-                {currentSmellEntries.map((entry) => (
-                    <SmellRecordItem key={entry.key}>
-                        <FormGroup>
-                            <select
-                                value={entry.smell_id}
-                                onChange={(e) =>
-                                    handleUpdateSmellEntry(
-                                        entry.key,
-                                        'smell_id',
-                                        e.target.value
-                                    )
-                                }
-                                disabled={isSaving}
-                            >
-                                {smells.map((smell) => (
-                                    <option key={smell._id} value={smell._id!}>
-                                        {smell.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </FormGroup>
-                        <FormGroup>
-                            <input
-                                type="text"
-                                placeholder="Lines (e.g., 1,2,5-7)"
-                                value={entry.linesString}
-                                onChange={(e) =>
-                                    handleUpdateSmellEntry(
-                                        entry.key,
-                                        'linesString',
-                                        e.target.value
-                                    )
-                                }
-                                disabled={isSaving}
-                            />
-                        </FormGroup>
-                        <Button
-                            type="button"
-                            variant="delete"
-                            onClick={() => handleRemoveSmellEntry(entry.key)}
+            {currentSmellEntries.length>0 && <h4 style={{ margin: '5px 0' }}>{entryTitle}:</h4>}
+            {currentSmellEntries.map((entry) => (
+                <SmellRecordItem key={entry.key}>
+                    <FormGroup style={{ margin: 0 }}>
+                        <h4>Smell Name</h4>
+                        <select
+                            value={entry.smell_id}
+                            onChange={(e) =>
+                                handleUpdateSmellEntry(
+                                    entry.key,
+                                    'smell_id',
+                                    e.target.value
+                                )
+                            }
                             disabled={isSaving}
                         >
-                            Remove
-                        </Button>
-                    </SmellRecordItem>
-                ))}
+                            {smells.map((smell) => (
+                                <option key={smell._id} value={smell._id!}>
+                                    {smell.name}
+                                </option>
+                            ))}
+                        </select>
+                    </FormGroup>
+                    <FormGroup style={{ margin: 0 }}>
+                        <h4>Lines</h4>
+                        <input
+                            type="text"
+                            placeholder="Lines (e.g., 1,2,5-7)"
+                            value={entry.linesString}
+                            onChange={(e) =>
+                                handleUpdateSmellEntry(
+                                    entry.key,
+                                    'linesString',
+                                    e.target.value
+                                )
+                            }
+                            disabled={isSaving}
+                        />
+                    </FormGroup>
+                    <Button
+                        type="button"
+                        variant="delete"
+                        onClick={() => handleRemoveSmellEntry(entry.key)}
+                        disabled={isSaving}
+                    >
+                        Remove
+                    </Button>
+                </SmellRecordItem>
+            ))}
 
-                <h5>Add Smell</h5>
+            <FormWrapper>
+                <h2>Add Smell</h2>
                 <div>
-                    <FormGroup style={{ flexGrow: 1, marginBottom: 0 }}>
+                    <FormGroup>
                         <label>Smell:</label>
                         <select
                             value={newEntrySmellId}
@@ -270,7 +272,7 @@ function FileForm(props: FileFormProps) {
                             ))}
                         </select>
                     </FormGroup>
-                    <FormGroup style={{ flexGrow: 2, marginBottom: 0 }}>
+                    <FormGroup>
                         <label>Lines:</label>
                         <input
                             type="text"
@@ -290,7 +292,7 @@ function FileForm(props: FileFormProps) {
                         {addEntryButtonText}
                     </Button>
                 </div>
-            </SmellRecordFormWrapper>
+            </FormWrapper>
 
             <FormButtons style={{ marginTop: '20px' }}>
                 <Button

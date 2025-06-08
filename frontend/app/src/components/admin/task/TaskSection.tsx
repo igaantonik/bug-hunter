@@ -113,7 +113,7 @@ function TasksSection() {
     return (
         <>
             <Button
-                variant="primary"
+                variant="add"
                 onClick={handleShowAddForm}
                 disabled={isMutationPending}
             >

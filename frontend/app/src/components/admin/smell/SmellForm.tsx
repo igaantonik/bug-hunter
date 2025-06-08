@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Smell } from '../../../types';
 import { FormGroup, FormButtons, Button } from '../AdminStyled';
 
@@ -22,13 +22,15 @@ function SmellForm({
         handleSubmit();
     };
 
+    const initialName = useRef<string>(formData.name || '');
+
     return (
         <form onSubmit={handleFormInternalSubmit}>
-            <h3>
+            <h2>
                 {formData._id
-                    ? `Edit Smell: ${formData.name || '(No name yet)'}`
+                    ? `Edit Smell: ${initialName.current}`
                     : 'Add New Smell'}
-            </h3>
+            </h2>
             <FormGroup>
                 <label htmlFor="smellName">Smell Name:</label>
                 <input

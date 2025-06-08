@@ -90,9 +90,9 @@ function TaskForm(props: TaskFormProps) {
 
     return (
         <form onSubmit={handleFormInternalSubmit}>
-            <h3>
+            <h2>
                 {isEditMode ? `Edit Task: ${initialData.name}` : 'Add New Task'}
-            </h3>
+            </h2>
             <FormGroup>
                 <label htmlFor="taskName">Task Name:</label>
                 <input
