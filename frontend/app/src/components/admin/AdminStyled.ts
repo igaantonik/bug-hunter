@@ -23,8 +23,8 @@ export const AccordionHeader = styled.div<{ $isOpen: boolean }>`
 
     span {
         font-size: 1.2em;
-        transform: ${({ isOpen }) =>
-            isOpen ? 'rotate(0deg)' : 'rotate(-90deg)'};
+        transform: ${({ $isOpen }) =>
+            $isOpen ? 'rotate(0deg)' : 'rotate(-90deg)'};
         transition: transform 0.2s ease-in-out;
     }
 `;

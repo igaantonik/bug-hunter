@@ -21,7 +21,7 @@ const Accordion: React.FC<AccordionProps> = ({
     return (
         <AccordionWrapper>
             <AccordionHeader
-                isOpen={isOpen}
+                $isOpen={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
                 role="button"
                 tabIndex={0}
