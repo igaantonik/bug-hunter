@@ -57,6 +57,16 @@ function TaskForm(props: TaskFormProps) {
             return;
         }
 
+        if (!description.trim()) {
+            alert('Task description is required.');
+            return;
+        }
+
+        if (selectedFileIds.length === 0) {
+            alert('At least one file must be selected for the task.');
+            return;
+        }
+
         const timeNum =
             allowedTime.trim() === '' ? null : parseInt(allowedTime, 10);
         if (allowedTime.trim() !== '' && (isNaN(timeNum!) || timeNum! < 0)) {
@@ -118,9 +128,7 @@ function TaskForm(props: TaskFormProps) {
                 />
             </FormGroup>
             <FormGroup>
-                <label htmlFor="allowedTime">
-                    Allowed Time (seconds):
-                </label>
+                <label htmlFor="allowedTime">Allowed Time (seconds):</label>
                 <input
                     type="number"
                     id="allowedTime"
@@ -166,7 +174,7 @@ function TaskForm(props: TaskFormProps) {
                 <Button
                     type="submit"
                     variant="primary"
-                    disabled={isSaving || !name.trim()}
+                    disabled={isSaving || !name.trim() || !description.trim() || selectedFileIds.length === 0}
                 >
                     {isSaving
                         ? 'Saving...'
