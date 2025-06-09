@@ -7,7 +7,7 @@ export const AccordionWrapper = styled.div`
     overflow: hidden;
 `;
 
-export const AccordionHeader = styled.div<{ isOpen: boolean }>`
+export const AccordionHeader = styled.div<{ $isOpen: boolean }>`
     background-color: #f1f3f5;
     padding: 15px;
     cursor: pointer;
