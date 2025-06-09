@@ -48,6 +48,7 @@ async def create_task(
         name=req.name,
         description=req.description,
         files=file_ids,
+        allowed_time=req.allowed_time,
     )
 
     result = await tasks_collection.insert_one(
