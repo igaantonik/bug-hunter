@@ -30,7 +30,7 @@ export const useReviewPageTimer = (
             setTimerInterval(interval);
         } else if ((!isActive || seconds === 0) && timerInterval) {
             clearInterval(timerInterval);
-            setHasTimerEnded?.(true);
+            setHasTimerEnded(true);
             setTimeout(() => {
                 alert("Time is up! Please submit your review.");
             }, 50)

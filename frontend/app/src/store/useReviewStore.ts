@@ -16,8 +16,8 @@ interface ReviewStore {
     ) => void;
     removeSelectedSmells: (fileId: string, lines: number[]) => void;
 
-    hasTimerEnded?: boolean;
-    setHasTimerEnded?: (hasEnded: boolean) => void;
+    hasTimerEnded: boolean;
+    setHasTimerEnded: (hasEnded: boolean) => void;
 }
 
 const useReviewStore = create<ReviewStore>()(
