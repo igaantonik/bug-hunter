@@ -15,6 +15,9 @@ interface ReviewStore {
         smellId: string
     ) => void;
     removeSelectedSmells: (fileId: string, lines: number[]) => void;
+
+    hasTimerEnded: boolean;
+    setHasTimerEnded: (hasEnded: boolean) => void;
 }
 
 const useReviewStore = create<ReviewStore>()(
@@ -58,6 +61,8 @@ const useReviewStore = create<ReviewStore>()(
                         },
                     };
                 }),
+            hasTimerEnded: false,
+            setHasTimerEnded: (hasEnded) => set({ hasTimerEnded: hasEnded }),
         }),
         {
             name: 'review-storage',

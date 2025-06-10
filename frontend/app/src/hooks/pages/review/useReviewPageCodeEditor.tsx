@@ -33,6 +33,7 @@ export const useReviewPageCodeEditor = ({
         currentSelection,
         setSelectedSmells,
         removeSelectedSmells,
+        hasTimerEnded,
     } = useReviewStore();
 
     const menuRef = useRef<HTMLDivElement>(null);
@@ -46,7 +47,7 @@ export const useReviewPageCodeEditor = ({
     };
 
     const mouseProps = useReviewPageCodeEditorMouseEvents({
-        disableMouseEvents: isMenuOpen,
+        disableMouseEvents: isMenuOpen || hasTimerEnded,
         onSelectionEnd: handleSelectionEnd,
     });
 
