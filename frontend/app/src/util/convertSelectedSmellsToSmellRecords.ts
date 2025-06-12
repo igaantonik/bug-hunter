@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 import { SmellRecord } from '../types';
 
 export const convertSelectedSmellsToSmellRecords = (

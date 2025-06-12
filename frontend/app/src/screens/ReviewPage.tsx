@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import PageContainer from '../components/shared/PageContainer';
 import ReviewPageHeader from '../components/review/ReviewPageHeader';

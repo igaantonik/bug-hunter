@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import TasksGrid from './TasksGrid';
 import SuspenseWithErrorBoundary from '../../shared/SuspenseWithErrorBoundary';

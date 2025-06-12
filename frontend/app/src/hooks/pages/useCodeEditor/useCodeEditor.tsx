@@ -43,7 +43,6 @@ export const useCodeEditor = ({
     const mouseProps = useCodeEditorMouseEvents({
         disableMouseEvents: isMenuOpen,
         onSelectionEnd: (s, e) => {
-            handlePlusButtonClick();
             setCurrentSelection(s, e);
         },
     });
@@ -77,6 +76,7 @@ export const useCodeEditor = ({
             setIsMenuOpen(false);
             setCurrentSelection(null, null);
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [file, currentSelection[0], currentSelection[1]]
     );
 

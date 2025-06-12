@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { File, EditFile } from '../../../types';
 
 import { useFilesQuery } from '../../../hooks/api/queries/useFilesQuery';
@@ -37,8 +37,8 @@ function FilesSection() {
         setShowAddForm(false);
     };
 
-    const handleCreateFile = (formData: FormData) => {
-        createFileMutation.mutate(formData, {
+    const handleCreateFile = (fd: FormData) => {
+        createFileMutation.mutate(fd, {
             onSuccess: () => {
                 handleCancelForm();
             },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Task, File as FileType } from '../../../types';
 import { FormGroup, FormButtons, Button, CheckboxGroup } from '../AdminStyled';
 
@@ -69,7 +69,10 @@ function TaskForm(props: TaskFormProps) {
 
         const timeNum =
             allowedTime.trim() === '' ? null : parseInt(allowedTime, 10);
-        if (allowedTime.trim() !== '' && (isNaN(timeNum!) || timeNum! < 0)) {
+        if (
+            allowedTime.trim() !== '' &&
+            (Number.isNaN(timeNum!) || timeNum! < 0)
+        ) {
             alert('Allowed time must be a valid positive number or empty.');
             return;
         }
@@ -108,10 +111,10 @@ function TaskForm(props: TaskFormProps) {
                 <input
                     type="text"
                     id="taskName"
+                    name="taskName"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g., Refactor User Service"
-                    autoFocus
                     disabled={isSaving}
                     required
                 />
@@ -174,13 +177,15 @@ function TaskForm(props: TaskFormProps) {
                 <Button
                     type="submit"
                     variant="primary"
-                    disabled={isSaving || !name.trim() || !description.trim() || selectedFileIds.length === 0}
+                    disabled={
+                        isSaving ||
+                        !name.trim() ||
+                        !description.trim() ||
+                        selectedFileIds.length === 0
+                    }
                 >
-                    {isSaving
-                        ? 'Saving...'
-                        : isEditMode
-                          ? 'Save Changes'
-                          : 'Create Task'}
+                    {isSaving && 'Saving...'}
+                    {!isSaving && isEditMode ? 'Save Changes' : 'Create Task'}
                 </Button>
                 <Button
                     type="button"

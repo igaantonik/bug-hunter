@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import { RefObject } from 'react';
 import styled from 'styled-components';
 import { formatTime } from '../../util/formatTime';
 import { useReviewPageTimer } from '../../hooks/pages/review/useReviewPageTimer';

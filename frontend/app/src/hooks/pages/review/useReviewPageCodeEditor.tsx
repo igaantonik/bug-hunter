@@ -68,6 +68,7 @@ export const useReviewPageCodeEditor = ({
             setIsMenuOpen(false);
             setCurrentSelection(null, null);
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [fileId, currentSelection[0], currentSelection[1]]
     );
 
