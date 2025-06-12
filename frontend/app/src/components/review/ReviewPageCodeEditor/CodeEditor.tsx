@@ -9,18 +9,23 @@ const Container = styled.div`
     flex: 4;
     padding: 20px;
     background-color: #fff;
-    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(202, 0, 19, 0.1);
+    border: 2px solid rgba(202, 0, 19, 0.4);
+    border-radius: 12px;
+    position: relative;
+    width: 0;
 
     h3 {
-        font-size: 35px;
+        font-size: 28px;
         margin: 0;
+        color: #ca0013;
+        font-family: 'Paytone One', sans-serif;
     }
-
-    width: 0px;
-    position: relative; 
 `;
 
 const CodeWrapper = styled.div`
+    border-radius: 6px;
+    overflow: hidden;
 `;
 
 const CodeEditorHeader = styled.div`
@@ -28,15 +33,34 @@ const CodeEditorHeader = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin: 10px 0;
+    margin: 16px 0;
 `;
+
+const StyledSyntaxHighlighter = styled(SyntaxHighlighter)`
+    font-size: 15px !important;
+    line-height: 1.8;
+    padding: 20px 10px !important;
+    border-radius: 6px;
+    background-color: #f9f9f9 !important;
+    border: 1px solid rgba(202, 0, 19, 0.1);
+`;
+
+const StyledLine = (bgColor?: string): React.CSSProperties => ({
+    display: 'block',
+    cursor: 'pointer',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    userSelect: 'none',
+    backgroundColor: bgColor || 'transparent',
+    whiteSpace: 'pre-wrap',
+});
+
 
 export interface CodeEditorProps {
     file: File;
     headerComponent?: ReactElement;
     onMouseOverLine?: (event: React.MouseEvent, lineNumber: number) => void;
     getLineBackgroundColor?: (lineNumber: number) => string;
-    // code wrapper props
     ref?: React.RefObject<HTMLDivElement | null>;
     onMouseLeave?: () => void;
     onMouseDown?: () => void;
@@ -58,35 +82,19 @@ function CodeEditor({
                 <CodeSmellsGallery />
             </CodeEditorHeader>
             <CodeWrapper {...codeWrapperProps}>
-                <SyntaxHighlighter
+                <StyledSyntaxHighlighter
                     showLineNumbers
                     language="javascript"
                     style={vs}
-                    customStyle={{
-                        backgroundColor: '#f2f2f2',
-                        fontSize: 15,
-                        borderRadius: 5,
-                        lineHeight: 2,
-                        padding: '20px 10px',
-                    }}
                     wrapLines
                     lineProps={(lineNumber) => ({
-                        style: {
-                            display: 'block',
-                            cursor: 'pointer',
-                            marginLeft: '30px',
-                            marginRight: '30px',
-                            userSelect: 'none',
-                            backgroundColor:
-                                getLineBackgroundColor?.(lineNumber),
-                            textWrap: 'wrap',
-                        },
+                        style: StyledLine(getLineBackgroundColor?.(lineNumber)),
                         onMouseOver: (event) =>
                             onMouseOverLine?.(event, lineNumber),
                     })}
                 >
                     {Object.values(file.lines).join('\n')}
-                </SyntaxHighlighter>
+                </StyledSyntaxHighlighter>
             </CodeWrapper>
         </Container>
     );

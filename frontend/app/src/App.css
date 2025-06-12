@@ -1,15 +1,10 @@
-html,
 body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
+  margin: 0;
+  font-family: 'Gudea', sans-serif;
+  background-color: #eeebe3;
+  color: black;
 }
 
-h1 {
-    margin: 0;
-}
-
-#root {
-    min-width: 100vw;
-    min-height: 100vh;
-    display: flex;
+.main-content {
+  padding-top: 30px;
 }
