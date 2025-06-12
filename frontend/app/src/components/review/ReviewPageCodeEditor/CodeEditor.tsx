@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components';
@@ -17,11 +17,10 @@ const Container = styled.div`
     }
 
     width: 0px;
-    position: relative; 
+    position: relative;
 `;
 
-const CodeWrapper = styled.div`
-`;
+const CodeWrapper = styled.div``;
 
 const CodeEditorHeader = styled.div`
     display: flex;

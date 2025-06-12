@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import { useState, ReactNode } from 'react';
 import {
     AccordionWrapper,
     AccordionHeader,
@@ -11,11 +11,7 @@ interface AccordionProps {
     startOpen?: boolean;
 }
 
-const Accordion: React.FC<AccordionProps> = ({
-    title,
-    children,
-    startOpen = false,
-}) => {
+function Accordion({ title, children, startOpen = false }: AccordionProps) {
     const [isOpen, setIsOpen] = useState(startOpen);
 
     return (
@@ -35,6 +31,6 @@ const Accordion: React.FC<AccordionProps> = ({
             {isOpen && <AccordionContent>{children}</AccordionContent>}
         </AccordionWrapper>
     );
-};
+}
 
 export default Accordion;

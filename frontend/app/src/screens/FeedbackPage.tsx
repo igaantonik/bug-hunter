@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+/* eslint-disable no-restricted-syntax */
+import { useCallback, useState } from 'react';
 import PageContainer from '../components/shared/PageContainer';
 import { useFeedbacksQuery } from '../hooks/api/queries/useFeedbacksQuery';
 import useURLQuery from '../hooks/useURLQuery';
@@ -47,7 +48,7 @@ function FeedbackPage() {
                     );
                     const fileSmellRecords = currentFile?.smell_records;
 
-                    for (const record of fileSmellRecords) {
+                    for (const record of fileSmellRecords ?? []) {
                         const recordSmellId = record.smell_id;
                         const recordLines = record.lines;
 
@@ -66,7 +67,8 @@ function FeedbackPage() {
                                 smellRecord.file_id === selectedFileId
                         );
 
-                    for (const record of currentFileReviewedSmellRecords) {
+                    for (const record of currentFileReviewedSmellRecords ??
+                        []) {
                         const recordSmellId = record.smell_id;
                         const recordLines = record.lines;
 

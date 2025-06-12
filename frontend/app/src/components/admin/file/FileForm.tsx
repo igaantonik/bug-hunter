@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { File, Smell, EditFile, PredefinedSmell } from '../../../types';
 import { formatPredefinedSmells } from '../../../util/formatPredefinedSmells';
 import { parseLinesString } from '../../../util/lineParser';
@@ -36,7 +36,7 @@ interface EditableSmellEntry {
 }
 
 function FileForm(props: FileFormProps) {
-    const { onCancel, isSaving, smells } = props;
+    const { onCancel, isSaving, smells, mode, onSubmit } = props;
 
     const [currentSmellEntries, setCurrentSmellEntries] = useState<
         EditableSmellEntry[]
@@ -54,10 +54,11 @@ function FileForm(props: FileFormProps) {
     const [fileLines, setFileLines] = useState<Record<string, string>>({});
 
     useEffect(() => {
-        if (props.mode === 'edit') {
-            setFileName(props.initialFileData.name);
-            setFileLines(props.initialFileData.lines);
-            const initialEntries = props.initialFileData.smell_records.map(
+        if (mode === 'edit') {
+            const { initialFileData } = props;
+            setFileName(initialFileData.name);
+            setFileLines(initialFileData.lines);
+            const initialEntries = initialFileData.smell_records.map(
                 (sr, index) => ({
                     key: sr.id || `sr-${index}-${Date.now()}`,
                     smell_id: sr.smell_id,
@@ -71,7 +72,7 @@ function FileForm(props: FileFormProps) {
         }
         setNewEntrySmellId(smells[0]?._id || '');
         setNewEntryLinesString('');
-    }, [props, smells]);
+    }, [props, smells, mode]);
 
     const handleAddSmellEntry = () => {
         if (!newEntrySmellId || !newEntryLinesString.trim()) {
@@ -118,7 +119,7 @@ function FileForm(props: FileFormProps) {
             }))
             .filter((entry) => entry.lines.length > 0);
 
-        if (props.mode === 'add') {
+        if (mode === 'add') {
             if (!selectedFile) {
                 alert('Please select a file to upload.');
                 return;
@@ -134,13 +135,12 @@ function FileForm(props: FileFormProps) {
             const formattedSmells = formatPredefinedSmells(
                 predefinedSmellsForApi
             );
-            console.log('Formatted Smells:', formattedSmells);
 
             if (formattedSmells.length > 0) {
                 formData.append('predefined_smells', formattedSmells);
             }
-            props.onSubmit(formData);
-        } else if (props.mode === 'edit') {
+            onSubmit(formData);
+        } else if (mode === 'edit') {
             if (!fileName.trim()) {
                 alert('File name cannot be empty.');
                 return;
@@ -150,27 +150,26 @@ function FileForm(props: FileFormProps) {
                 lines: fileLines,
                 smell_records: parsedSmellEntriesForPayload,
             };
-            props.onSubmit({
+            onSubmit({
                 _id: props.initialFileData._id!,
                 ...updatePayload,
             });
         }
     };
 
-    const entryTitle =
-        props.mode === 'add' ? 'Predefined Smells' : 'Smell Records';
+    const entryTitle = mode === 'add' ? 'Predefined Smells' : 'Smell Records';
     const addEntryButtonText =
-        props.mode === 'add' ? 'Add Predefined Smell' : 'Add Smell Record';
+        mode === 'add' ? 'Add Predefined Smell' : 'Add Smell Record';
 
     return (
         <form onSubmit={handleSubmit}>
             <h2>
-                {props.mode === 'add'
+                {mode === 'add'
                     ? 'Add New File'
                     : `Edit File: ${props.initialFileData.name}`}
             </h2>
 
-            {props.mode === 'add' && (
+            {mode === 'add' && (
                 <FormGroup>
                     <label htmlFor="fileUpload">File:</label>
                     <input
@@ -187,7 +186,7 @@ function FileForm(props: FileFormProps) {
                 </FormGroup>
             )}
 
-            {props.mode === 'edit' && (
+            {mode === 'edit' && (
                 <FormGroup>
                     <label htmlFor="fileName">File Name:</label>
                     <input
@@ -202,7 +201,9 @@ function FileForm(props: FileFormProps) {
                 </FormGroup>
             )}
 
-            {currentSmellEntries.length>0 && <h4 style={{ margin: '5px 0' }}>{entryTitle}:</h4>}
+            {currentSmellEntries.length > 0 && (
+                <h4 style={{ margin: '5px 0' }}>{entryTitle}:</h4>
+            )}
             {currentSmellEntries.map((entry) => (
                 <SmellRecordItem key={entry.key}>
                     <FormGroup style={{ margin: 0 }}>
@@ -300,15 +301,14 @@ function FileForm(props: FileFormProps) {
                     variant="primary"
                     disabled={
                         isSaving ||
-                        (props.mode === 'add' && !selectedFile) ||
-                        (props.mode === 'edit' && !fileName.trim())
+                        (mode === 'add' && !selectedFile) ||
+                        (mode === 'edit' && !fileName.trim())
                     }
                 >
-                    {isSaving
-                        ? 'Saving...'
-                        : props.mode === 'add'
-                          ? 'Upload and Save File'
-                          : 'Save Changes'}
+                    {isSaving && 'Saving...'}
+                    {!isSaving && mode === 'add'
+                        ? 'Upload and Save File'
+                        : 'Save Changes'}
                 </Button>
                 <Button
                     type="button"

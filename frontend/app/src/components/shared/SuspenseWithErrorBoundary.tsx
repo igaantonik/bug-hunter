@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import { SyncLoader } from 'react-spinners';
 import styled from 'styled-components';
 import ErrorBoundary from './ErrorBoundary';
@@ -15,7 +15,7 @@ const FallbackContainer = styled.div`
 function SuspenseWithErrorBoundary({ children }: PropsWithChildren) {
     return (
         <ErrorBoundary>
-            <React.Suspense
+            <Suspense
                 fallback={
                     <FallbackContainer>
                         <SyncLoader speedMultiplier={LOADER_SPEED_MULTIPLIER} />
@@ -23,7 +23,7 @@ function SuspenseWithErrorBoundary({ children }: PropsWithChildren) {
                 }
             >
                 {children}
-            </React.Suspense>
+            </Suspense>
         </ErrorBoundary>
     );
 }

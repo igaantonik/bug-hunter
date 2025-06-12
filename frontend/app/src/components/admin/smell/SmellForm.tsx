@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Smell } from '../../../types';
 import { FormGroup, FormButtons, Button } from '../AdminStyled';
 
@@ -40,7 +40,6 @@ function SmellForm({
                     value={formData.name || ''}
                     onChange={(e) => onFormDataChange(e.target.value)}
                     placeholder="e.g., God Class"
-                    autoFocus
                     disabled={isSaving}
                 />
             </FormGroup>

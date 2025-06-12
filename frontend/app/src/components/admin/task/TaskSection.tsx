@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Task } from '../../../types';
 
 import { useTasksQuery } from '../../../hooks/api/queries/useTasksQuery';

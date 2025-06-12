@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import useReviewStore from '../../../store/useReviewStore';
 
 interface UseCodeEditorMouseEventsProps {
     onSelectionEnd?: (
@@ -72,7 +71,7 @@ export const useCodeEditorMouseEvents = (
     }, [props?.disableMouseEvents]);
 
     return {
-        topOffset: topOffset,
+        topOffset,
         codeWrapperRef,
         handleMouseDown,
         handleMouseUp,
