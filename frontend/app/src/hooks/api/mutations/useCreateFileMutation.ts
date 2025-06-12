@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { File, UploadFile } from '../../../types';
+import { File } from '../../../types';
 import axiosInstance from '../../../query/axiosInstance';
 import { FILES_QUERY_KEY } from '../queries/useFilesQuery';
 

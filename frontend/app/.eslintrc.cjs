@@ -22,7 +22,13 @@ module.exports = {
         'react/jsx-props-no-spreading': 'off',
         'import/prefer-default-export': 'off',
         'no-underscore-dangle': 'off',
-        'no-param-reassign': 'off'
+        'no-param-reassign': 'off',
+        'react/destructuring-assignment': 'off',
+        'react/react-in-jsx-scope': 'off',
+        '@typescript-eslint/naming-convention': 'off',
+        'no-console': 'off',
+        'no-alert': 'off',
+        'jsx-a11y/label-has-associated-control': 'off',
     },
     settings: {
         react: {
@@ -30,4 +36,5 @@ module.exports = {
         },
     },
     plugins: ['react', '@typescript-eslint', 'prettier'],
+    ignorePatterns: ['vite.config.ts'],
 };

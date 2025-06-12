@@ -1,4 +1,3 @@
-import React from 'react';
 import Accordion from '../components/admin/Accordion';
 import SmellsSection from '../components/admin/smell/SmellsSection';
 import FilesSection from '../components/admin/file/FilesSection';

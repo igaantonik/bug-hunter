@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useReviewStore from '../../../store/useReviewStore.ts';
+import useReviewStore from '../../../store/useReviewStore';
 
 interface UseReviewPageTimerResult {
     currentTimeSeconds: number;
@@ -10,9 +10,10 @@ export const useReviewPageTimer = (
 ): UseReviewPageTimerResult => {
     const [seconds, setSeconds] = useState(initialTimeSeconds);
     const [isActive, setIsActive] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [timerInterval, setTimerInterval] = useState<any>(null);
 
-    const { setHasTimerEnded } = useReviewStore()
+    const { setHasTimerEnded } = useReviewStore();
 
     function startTimer() {
         setIsActive(true);
@@ -32,9 +33,10 @@ export const useReviewPageTimer = (
             clearInterval(timerInterval);
             setHasTimerEnded(true);
             setTimeout(() => {
-                alert("Time is up! Please submit your review.");
-            }, 50)
+                alert('Time is up! Please submit your review.');
+            }, 50);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isActive, seconds]);
 
     useEffect(() => {

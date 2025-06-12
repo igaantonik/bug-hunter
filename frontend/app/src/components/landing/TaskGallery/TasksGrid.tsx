@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import TaskCard from './TaskCard';
 import { useTasksQuery } from '../../../hooks/api/queries/useTasksQuery';

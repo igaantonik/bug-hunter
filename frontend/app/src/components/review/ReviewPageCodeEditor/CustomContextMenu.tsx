@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import { RefObject } from 'react';
 import styled from 'styled-components';
 import { useOnClickOutside } from 'usehooks-ts';
 import useReviewStore from '../../../store/useReviewStore';
@@ -36,7 +36,7 @@ interface CustomContextMenuProps {
 
 function CustomContextMenu({ ref, items }: CustomContextMenuProps) {
     const { setCurrentSelection, isMenuOpen, setIsMenuOpen } = useReviewStore();
-    useOnClickOutside(ref, () => {
+    useOnClickOutside(ref as RefObject<HTMLElement>, () => {
         if (isMenuOpen) {
             setIsMenuOpen(false);
             setCurrentSelection(null, null);

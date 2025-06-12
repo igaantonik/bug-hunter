@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
+import { Component, PropsWithChildren } from 'react';
 import { BiError } from 'react-icons/bi';
 import styled from 'styled-components';
 
@@ -42,15 +42,18 @@ interface State {
 }
 
 class ErrorBoundary extends Component<Props, State> {
-    public state: State = {
-        hasError: false,
-    };
+    constructor(props: PropsWithChildren) {
+        super(props);
+        this.state = {
+            hasError: false,
+        };
+    }
 
-    public static getDerivedStateFromError(_: Error): State {
+    public static getDerivedStateFromError(): State {
         return { hasError: true };
     }
 
-    public componentDidCatch(error: Error, _: ErrorInfo) {
+    public componentDidCatch(error: Error) {
         console.error(error.name, error.message);
     }
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { File } from '../../../types';
 import { Button, ItemList, ListItem } from '../AdminStyled';
 

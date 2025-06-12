@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Smell } from '../../../types';
 
 import { useSmellsQuery } from '../../../hooks/api/queries/useSmellsQuery';
