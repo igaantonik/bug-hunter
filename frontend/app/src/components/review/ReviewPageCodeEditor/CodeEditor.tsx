@@ -87,9 +87,9 @@ function CodeEditor({
                     language="javascript"
                     style={vs}
                     wrapLines
-                    lineProps={(lineNumber) => ({
+                    lineProps={(lineNumber: number) => ({
                         style: StyledLine(getLineBackgroundColor?.(lineNumber)),
-                        onMouseOver: (event) =>
+                        onMouseOver: (event: React.MouseEvent<HTMLDivElement>) =>
                             onMouseOverLine?.(event, lineNumber),
                     })}
                 >

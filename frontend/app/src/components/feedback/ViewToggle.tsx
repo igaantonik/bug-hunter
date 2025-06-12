@@ -31,7 +31,7 @@ const ViewToggleCell = styled.div<{ $isActive: boolean }>`
 
 interface ViewToggleProps {
     isCorrectVersionShown: boolean;
-    setIsCorrectVersionShown: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsCorrectVersionShown: (val: boolean) => void;
 }
 
 function ViewToggle({
