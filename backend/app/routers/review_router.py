@@ -115,7 +115,7 @@ async def _calculate_score(task: Task, review: Review) -> tuple[int, int]:
                 else set()
             )
 
-            max_score += len(smell_record['lines'])
+            max_score += len(smell_record['lines']) + 1
             tmp_score = len(answers.intersection(smell_record['lines']))
 
             if tmp_score == len(smell_record['lines']):
