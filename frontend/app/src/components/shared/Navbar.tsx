@@ -53,19 +53,17 @@ const AdminLink = styled(NavLink)`
   color: #ca0013;
   text-decoration: none;
   font-weight: 500;
-  font-size: 1rem;
-  font-family: 'Gudea', sans-serif;
+  font-size: 1.2rem;
+  font-family: 'Paytone One', sans-serif;
   padding: 8px 16px;
   border-radius: 6px;
   transition: all 0.2s ease;
 
   &.active {
     font-weight: 700;
-    background-color: rgba(202, 0, 19, 0.08);
   }
 
   &:hover {
-    background-color: rgba(202, 0, 19, 0.1);
     color: #a00010;
   }
 `;

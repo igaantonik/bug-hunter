@@ -29,4 +29,4 @@ function AdminPage() {
     );
 }
 
-export default AdminPage; // if this is a page component
+export default AdminPage;
