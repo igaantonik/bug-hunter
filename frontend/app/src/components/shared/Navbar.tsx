@@ -98,9 +98,31 @@ const JoinGroupButton = styled.button`
   }
 `;
 
+const LogoutButton = styled.button`
+margin-left: 100px;
+  padding: 8px 16px;
+  background-color: #ca0013;
+  color: white;
+  font-family: 'Paytone One', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #a00010;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(202, 0, 19, 0.5);
+  }
+`;
 function Navbar() {
   const joinTaskGroupMutation = useJoinTaskGroupMutation();
-  const { username } = useUserStore();
+  const { username,setUsername, setIsOnboarded } = useUserStore();
 
   const handleJoinGroup = () => {
     const accessCode = prompt('Enter access code:');
@@ -124,6 +146,14 @@ function Navbar() {
     );
   };
 
+  const logout = () => {
+    localStorage.removeItem("user-storage")
+    localStorage.removeItem("review-storage")
+    setUsername(undefined);
+    setIsOnboarded(false);
+    window.location.href = '/';
+  }
+
   return (
     <NavContainer>
       <LogoWrapper>
@@ -133,6 +163,7 @@ function Navbar() {
       <RightLinks>
         <AdminLink to="/admin">Admin</AdminLink>
         <JoinGroupButton onClick={handleJoinGroup}>Join group</JoinGroupButton>
+        <LogoutButton onClick={logout}>Logout</LogoutButton>
       </RightLinks>
     </NavContainer>
   );
