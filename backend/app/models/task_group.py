@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 from app.models.utils import PyObjectId
 
+
 class TaskGroup(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     name: str = Field(..., description="Name of the task group")
@@ -22,14 +23,8 @@ class TaskGroup(BaseModel):
                 "name": "Group 1",
                 "access_code": "ABC123",
                 "owner_id": "665f3b1f5d3e8d12abef3210",
-                "tasks": [
-                    "665f3b1f5d3e8d12abef3211",
-                    "665f3b1f5d3e8d12abef3212"
-                ],
-                "user_ids": [
-                    "john123",
-                    "adam567"
-                ],
+                "tasks": ["665f3b1f5d3e8d12abef3211", "665f3b1f5d3e8d12abef3212"],
+                "user_ids": ["john123", "adam567"],
             }
         },
     )
