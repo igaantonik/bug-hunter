@@ -59,13 +59,16 @@ function TaskGroupForm(props: TaskGroupFormProps) {
             alert('Group name is required.');
             return;
         }
+        const tasks: string[] = selectedTasks
+    .map(t => t._id)
+    .filter((id): id is string => id !== undefined);
         const groupData: TaskGroup = {
             ...initialData,
             name: name.trim(),
             access_code: initialData.access_code || '',
             owner_id: initialData.owner_id!,
             user_ids: initialData.user_ids || [],
-            tasks: selectedTasks.map(t => t._id),
+            tasks
         };
         console.log(groupData)
         props.onSubmit(groupData);
