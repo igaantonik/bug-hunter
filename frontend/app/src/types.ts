@@ -59,3 +59,12 @@ export interface EditFile {
     lines: Record<string, string>;
     smell_records: { lines: number[]; smell_id: string }[];
 }
+
+export interface TaskGroup {
+    _id?: string;
+    name: string;
+    access_code: string;
+    owner_id: string;
+    user_ids: string[];
+    tasks: string[];
+}
