@@ -99,7 +99,6 @@ const JoinGroupButton = styled.button`
 `;
 
 const LogoutButton = styled.button`
-margin-left: 100px;
   padding: 8px 16px;
   background-color: #ca0013;
   color: white;

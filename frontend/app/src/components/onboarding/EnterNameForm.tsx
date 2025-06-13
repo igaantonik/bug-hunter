@@ -3,44 +3,54 @@ import styled from 'styled-components';
 import useUserStore from '../../store/useUserStore';
 
 const Form = styled.form`
-    margin-top: 20px;
-    width: 400px;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 12px;
+`;
 
-    & > div {
-        width: 100%;
-        height: 50px;
-        display: flex;
-    }
+const Input = styled.input`
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
 
-    & > div > input[type='text'],
-    & > div > input[type='text']:focus {
-        border-radius: 10px 0px 0px 10px;
-        flex: 1;
-        border: 1px solid #808080;
-        padding-left: 10px;
-        font-size: 20px;
+    &:focus {
         outline: none;
+        border-color: #ca0013;
+        box-shadow: 0 0 0 2px rgba(202, 0, 19, 0.2);
+    }
+`;
+
+const ErrorText = styled.p`
+    color: #ca0013;
+    font-size: 0.875rem;
+    margin: 0;
+    min-height: 1em;
+`;
+
+const SubmitButton = styled.button`
+    padding: 12px;
+    background-color: #ca0013;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: 'Paytone One', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: #a00010;
     }
 
-    & > div > input[type='submit'] {
-        border-radius: 0px 10px 10px 0px;
-        background-color: rgb(55, 97, 226);
-        color: #fff;
-        font-weight: bold;
-        padding: 0px 20px;
-        border: 1px solid #808080;
-        border-left-width: 0px;
-        cursor: pointer;
-    }
-
-    & > p {
-        color: red;
-        margin-top: 10px;
-        font-size: 15px;
-        margin-left: 10px;
-        height: 20px;
+    &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
     }
 `;
 
@@ -51,26 +61,25 @@ function EnterNameForm() {
 
     const formSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (value === '') {
+        if (value.trim() === '') {
             setError('Nickname cannot be empty!');
             return;
         }
-        setUsername(value);
+        setError(null);
+        setUsername(value.trim());
         setIsOnboarded(true);
     };
 
     return (
         <Form onSubmit={formSubmitHandler}>
-            <div>
-                <input
-                    type="text"
-                    placeholder="your nickname"
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
-                />
-                <input type="submit" value="Proceed" />
-            </div>
-            <p>{error}</p>
+            <Input
+                type="text"
+                placeholder="Your nickname"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+            />
+            <SubmitButton type="submit">Proceed</SubmitButton>
+            <ErrorText>{error}</ErrorText>
         </Form>
     );
 }
