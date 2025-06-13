@@ -6,32 +6,26 @@ import TaskCard from './TaskCard';
 import useUserStore from '../../../store/useUserStore.ts';
 
 const Container = styled.div`
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
 `;
 
 const GroupContainer = styled.div`
     margin-bottom: 40px;
 `;
 
-const GroupHeader = styled.h2`
-    margin-bottom: 10px;
-    color: #333;
+const GroupHeader = styled.h3`
+    font-family: 'Paytone One', sans-serif;
+    color: black;
+    font-size: 24px;
+    text-align: center;
 `;
 
 const TasksGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-
-    @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-    }
+    grid-template-columns: repeat(4, minmax(280px, 1fr));
+    width: 90%;
+    margin: 0 auto;
+    gap: 24px;
+    padding: 10px;
 `;
 
 const NoTasksContainer = styled.div`

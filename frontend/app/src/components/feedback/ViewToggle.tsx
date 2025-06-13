@@ -1,29 +1,37 @@
 import styled from 'styled-components';
 
 const ViewToggleContainer = styled.div`
-    border: 1px solid black;
-    border-radius: 10px;
-    width: 200px;
-    aspect-ratio: 5/1;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    width: 180px;
+    height: 36px;
     overflow: hidden;
     display: flex;
+    background-color: #eeebe3;
+    font-family: 'Gudea', sans-serif;
 `;
 
 const ViewToggleCell = styled.div<{ $isActive: boolean }>`
-    display: flex;
     flex: 1;
+    display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     user-select: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: ${({ $isActive }) => ($isActive ? '#ca0013' : '#333')};
+    background-color: ${({ $isActive }) => ($isActive ? '#fbe7e9' : 'white')};
+    transition: all 0.2s ease-in-out;
 
-    background-color: ${({ $isActive }) => ($isActive ? '#dbeafe' : '')};
-    transition: 0.2s ease-in-out;
+    &:hover {
+        background-color: ${({ $isActive }) => ($isActive ? '#fbe7e9' : '#e3dfd8')};
+    }
 `;
 
 interface ViewToggleProps {
     isCorrectVersionShown: boolean;
-    setIsCorrectVersionShown: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsCorrectVersionShown: (val: boolean) => void;
 }
 
 function ViewToggle({
@@ -31,15 +39,17 @@ function ViewToggle({
     setIsCorrectVersionShown,
 }: ViewToggleProps) {
     return (
-        <ViewToggleContainer
-            onClick={() => {
-                setIsCorrectVersionShown((prev) => !prev);
-            }}
-        >
-            <ViewToggleCell $isActive={!isCorrectVersionShown}>
+        <ViewToggleContainer>
+            <ViewToggleCell
+                $isActive={!isCorrectVersionShown}
+                onClick={() => setIsCorrectVersionShown(false)}
+            >
                 original
             </ViewToggleCell>
-            <ViewToggleCell $isActive={isCorrectVersionShown}>
+            <ViewToggleCell
+                $isActive={isCorrectVersionShown}
+                onClick={() => setIsCorrectVersionShown(true)}
+            >
                 correct
             </ViewToggleCell>
         </ViewToggleContainer>

@@ -35,6 +35,7 @@ function TaskGroupList({
                         <Button variant="edit" onClick={() => onEdit(group)}>
                             Edit
                         </Button>
+                        &nbsp;
                         <Button
                             variant="delete"
                             onClick={() => group._id && onDelete(group._id)}

@@ -43,6 +43,7 @@ function TaskList({
                         <Button variant="edit" onClick={() => onEdit(task)}>
                             Edit
                         </Button>
+                        &nbsp;
                         <Button
                             variant="delete"
                             onClick={() => onDelete(task._id!)}

@@ -5,16 +5,28 @@ import { useReviewPage } from '../hooks/pages/review/useReviewPage';
 import IDE from '../components/shared/IDE/IDE';
 import CustomContextMenu from '../components/review/ReviewPageCodeEditor/CustomContextMenu';
 import { useReviewPageCodeEditor } from '../hooks/pages/review/useReviewPageCodeEditor';
+import SubmitIcon from '../assets/done-btn.png';
 
 const Button = styled.button`
-    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 20px;
+    font-family: 'Paytone One', sans-serif;
+    background-color: #ca0013;
+    color: white;
 
     &:hover {
-        background-color: #e0e0e0;
+        background-color: #a80010;
+    }
+
+    img {
+        width: 30px;
+        height: 30px;
     }
 `;
 
@@ -50,7 +62,8 @@ function ReviewPage() {
                                     await reviewSubmitHandler();
                                 }}
                             >
-                                Submit Review
+                                Submit
+                                <img src={SubmitIcon} alt="Submit Icon" />
                             </Button>
                         </>
                     ),

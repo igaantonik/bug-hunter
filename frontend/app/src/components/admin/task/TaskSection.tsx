@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Task } from '../../../types';
+import AddIcon from '../../../assets/add-btn.png'; 
 
 import { useTasksQuery } from '../../../hooks/api/queries/useTasksQuery';
 import { useFilesQuery } from '../../../hooks/api/queries/useFilesQuery';
@@ -8,7 +9,7 @@ import { useCreateTaskMutation } from '../../../hooks/api/mutations/useCreateTas
 import { useUpdateTaskMutation } from '../../../hooks/api/mutations/useUpdateTaskMutation';
 import { useDeleteTaskMutation } from '../../../hooks/api/mutations/useDeleteTaskMutation';
 
-import { Button } from '../AdminStyled';
+import { Button, Icon } from '../AdminStyled';
 import TaskForm from './TaskForm';
 import TaskList from './TaskList';
 
@@ -117,6 +118,7 @@ function TasksSection() {
                 onClick={handleShowAddForm}
                 disabled={isMutationPending}
             >
+                 <Icon src={AddIcon} alt="Add" />
                 Add New Task
             </Button>
 

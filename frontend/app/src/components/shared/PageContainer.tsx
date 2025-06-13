@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div<{ $centered?: boolean }>`
     flex: 1;
-    background-color: rgb(243, 244, 246);
+    background-color:eeebe3;
     display: flex;
     flex-direction: column;
     padding: 20px;

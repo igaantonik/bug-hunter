@@ -11,21 +11,19 @@ function AdminPage() {
     return (
         <PageContainer>
             <AdminPageHeader />
-            <Accordion title="Manage Tasks">
+            <Accordion title="Manage Smells">
                 <SuspenseWithErrorBoundary>
-                    <TasksSection />
+                    <SmellsSection />
                 </SuspenseWithErrorBoundary>
             </Accordion>
-
             <Accordion title="Manage Files">
                 <SuspenseWithErrorBoundary>
                     <FilesSection />
                 </SuspenseWithErrorBoundary>
             </Accordion>
-
-            <Accordion title="Manage Smells">
+            <Accordion title="Manage Tasks">
                 <SuspenseWithErrorBoundary>
-                    <SmellsSection />
+                    <TasksSection />
                 </SuspenseWithErrorBoundary>
             </Accordion>
 
@@ -38,4 +36,4 @@ function AdminPage() {
     );
 }
 
-export default AdminPage; // if this is a page component
+export default AdminPage;

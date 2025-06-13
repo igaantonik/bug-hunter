@@ -11,7 +11,7 @@ const Container = styled.div`
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
     padding: 5px 0;
     z-index: 20;
-    min-width: 150px; /* Minimalna szerokość menu */
+    min-width: 150px;
 `;
 
 const MenuItem = styled.div`

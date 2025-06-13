@@ -29,6 +29,7 @@ function FileList({
                         <Button variant="edit" onClick={() => onEdit(file)}>
                             Edit
                         </Button>
+                        &nbsp;
                         <Button
                             variant="delete"
                             onClick={() => onDelete(file._id!)}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { File, EditFile } from '../../../types';
+import AddIcon from '../../../assets/add-btn.png'; 
 
 import { useFilesQuery } from '../../../hooks/api/queries/useFilesQuery';
 import { useSmellsQuery } from '../../../hooks/api/queries/useSmellsQuery';
@@ -7,7 +8,7 @@ import { useCreateFileMutation } from '../../../hooks/api/mutations/useCreateFil
 import { useUpdateFileMutation } from '../../../hooks/api/mutations/useUpdateFileMutation';
 import { useDeleteFileMutation } from '../../../hooks/api/mutations/useDeleteFileMutation';
 
-import { Button } from '../AdminStyled';
+import { Button, Icon } from '../AdminStyled';
 import FileForm from './FileForm';
 import FileList from './FileList';
 
@@ -109,6 +110,7 @@ function FilesSection() {
                 onClick={handleShowAddForm}
                 disabled={isSaving}
             >
+                <Icon src={AddIcon} alt="Add" />
                 Add New File
             </Button>
 

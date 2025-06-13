@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Smell } from '../../../types';
+import AddIcon from '../../../assets/add-btn.png'; 
 
 import { useSmellsQuery } from '../../../hooks/api/queries/useSmellsQuery';
 import { useCreateSmellMutation } from '../../../hooks/api/mutations/useCreateSmellMutation';
 import { useUpdateSmellMutation } from '../../../hooks/api/mutations/useUpdateSmellMutation';
 import { useDeleteSmellMutation } from '../../../hooks/api/mutations/useDeleteSmellMutation';
 
-import { Button } from '../AdminStyled';
+import { Button, Icon } from '../AdminStyled';
 import SmellForm from './SmellForm';
 import SmellList from './SmellList';
 
@@ -86,7 +87,8 @@ function SmellsSection() {
     return (
         <>
             <Button variant="add" onClick={handleShowAddForm}>
-                Add New Smell
+            <Icon src={AddIcon} alt="Add" />
+            Add New Smell
             </Button>
 
             <h4>Existing Smells:</h4>
