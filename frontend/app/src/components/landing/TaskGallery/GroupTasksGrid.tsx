@@ -53,9 +53,7 @@ function GroupTasksGrid() {
             </NoTasksContainer>
         );
     }
-    console.log("username", username)
-    // Filtrujemy grupy dla zalogowanego usera
-    // Filtrujemy grupy dla zalogowanego usera
+
     const userGroups = taskGroups.filter(group => group.user_ids.includes(username!));
 
     if (userGroups.length === 0) {

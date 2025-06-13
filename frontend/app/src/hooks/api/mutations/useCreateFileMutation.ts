@@ -19,7 +19,7 @@ export const useCreateFileMutation = () => {
             return response.data;
         },
         onSuccess: async () => {
-            console.log('Successfully created a new file!');
+            console.log(' created a new file!');
             await queryClient.invalidateQueries({
                 queryKey: [FILES_QUERY_KEY],
             });

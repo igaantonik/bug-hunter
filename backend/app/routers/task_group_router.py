@@ -61,15 +61,12 @@ async def join_task_group(access_code: str, user_id: str = Body(...)):
 
     if user_id in group_model.user_ids:
         raise HTTPException(status_code=400, detail="User already joined")
-    print("user joined", user_id)
+
     group_model.user_ids.append(user_id)
-    print("group_model.user_ids", group_model.user_ids)
-    print("uuu", group_model.id)
     await task_groups_collection.update_one(
         {"_id": ObjectId(group_model.id)}, {"$set": {"user_ids": group_model.user_ids}}
     )
     found = await task_groups_collection.find_one({"_id": group_model.id})
-    print(found)
     return group_model
 
 

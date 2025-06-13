@@ -23,7 +23,6 @@ function TaskGroupList({
     return (
         <ItemList>
             {taskGroups.map((group) => (
-                console.log(group),
                 <ListItem key={group._id ?? Math.random()}>
                     <div>
                         <strong>Group: {group.name}</strong>

@@ -13,7 +13,7 @@ import TaskGroupList from './TaskGroupList';
 const EMPTY_TASK_GROUP_FORM_DATA: Partial<TaskGroup> = {
     name: '',
     access_code: '',
-    owner_id: '', // pamiętaj aby przy tworzeniu przekazywać aktualnego usera
+    owner_id: '',
     user_ids: [],
     tasks: [],
 };
@@ -44,7 +44,6 @@ function TaskGroupsSection() {
     };
 
     const handleCreateTaskGroup = (groupData: TaskGroup) => {
-        console.log("xxx", groupData);
         createTaskGroupMutation.mutate(groupData, {
             onSuccess: () => {
                 handleCancelForm();

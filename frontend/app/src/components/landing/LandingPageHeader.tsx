@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useJoinTaskGroupMutation } from "../../hooks/api/mutations/useJoinTaskGroupMutation"
-import useUserStore from '../../store/useUserStore';  // <-- zakładam że tu masz username
+import useUserStore from '../../store/useUserStore';
 
 const Header = styled.header`
     width: calc(80% - 20px);

@@ -70,7 +70,6 @@ function TaskGroupForm(props: TaskGroupFormProps) {
             user_ids: initialData.user_ids || [],
             tasks
         };
-        console.log(groupData)
         props.onSubmit(groupData);
     };
 
