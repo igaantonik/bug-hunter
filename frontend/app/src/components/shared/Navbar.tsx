@@ -1,6 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../assets/logo2.png';
+import { useJoinTaskGroupMutation } from "../../hooks/api/mutations/useJoinTaskGroupMutation"
+import useUserStore from '../../store/useUserStore';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -49,6 +51,12 @@ const LogoText = styled(NavLink)`
   }
 `;
 
+const RightLinks = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
 const AdminLink = styled(NavLink)`
   color: #ca0013;
   text-decoration: none;
@@ -68,14 +76,64 @@ const AdminLink = styled(NavLink)`
   }
 `;
 
+const JoinGroupButton = styled.button`
+  padding: 8px 16px;
+  background-color: #ca0013;
+  color: white;
+  font-family: 'Paytone One', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #a00010;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(202, 0, 19, 0.5);
+  }
+`;
+
 function Navbar() {
+  const joinTaskGroupMutation = useJoinTaskGroupMutation();
+  const { username } = useUserStore();
+
+  const handleJoinGroup = () => {
+    const accessCode = prompt('Enter access code:');
+    if (!accessCode) return;
+
+    if (!username) {
+      alert('You must be logged in to join a group.');
+      return;
+    }
+
+    joinTaskGroupMutation.mutate(
+      { accessCode, username },
+      {
+        onSuccess: () => {
+          alert('Successfully joined the group!');
+        },
+        onError: (error: any) => {
+          alert('Failed to join the group: ' + error.message);
+        },
+      }
+    );
+  };
+
   return (
     <NavContainer>
       <LogoWrapper>
         <LogoImg src={logo} alt="Bug Hunter Logo" />
         <LogoText to="/">Bug Hunter</LogoText>
       </LogoWrapper>
-      <AdminLink to="/admin">Admin</AdminLink>
+      <RightLinks>
+        <AdminLink to="/admin">Admin</AdminLink>
+        <JoinGroupButton onClick={handleJoinGroup}>Join group</JoinGroupButton>
+      </RightLinks>
     </NavContainer>
   );
 }
