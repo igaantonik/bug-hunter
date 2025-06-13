@@ -5,7 +5,7 @@ interface UserStore {
     isOnboarded: boolean;
     setIsOnboarded: (value: boolean) => void;
     username: string | undefined;
-    setUsername: (value: string) => void;
+    setUsername: (value: string | undefined) => void;
 }
 
 const useUserStore = create<UserStore>()(
