@@ -29,6 +29,7 @@ function SmellList({
                         <Button variant="edit" onClick={() => onEdit(smell)}>
                             Edit
                         </Button>
+                        &nbsp;
                         <Button
                             variant="delete"
                             onClick={() => onDelete(smell._id!)}
