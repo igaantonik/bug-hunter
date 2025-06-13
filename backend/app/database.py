@@ -18,3 +18,4 @@ tasks_collection = db.tasks
 files_collection = db.files
 feedbacks_collection = db.feedbacks
 smells_collection = db.smells
+task_groups_collection = db.task_groups

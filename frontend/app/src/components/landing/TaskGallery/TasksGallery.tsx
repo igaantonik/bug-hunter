@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import TasksGrid from './TasksGrid';
+import GroupTasksGrid from './GroupTasksGrid';
 import SuspenseWithErrorBoundary from '../../shared/SuspenseWithErrorBoundary';
 
 const Container = styled.div`
@@ -18,6 +19,11 @@ function TasksGallery() {
             <h2>Available Tasks</h2>
             <SuspenseWithErrorBoundary>
                 <TasksGrid />
+            </SuspenseWithErrorBoundary>
+
+            <h2>Available Group Tasks</h2>
+            <SuspenseWithErrorBoundary>
+                <GroupTasksGrid />
             </SuspenseWithErrorBoundary>
         </Container>
     );
